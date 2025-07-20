@@ -1,0 +1,26 @@
+{
+  "name": "js-ts-interview-prep",
+  "version": "1.0.0",
+  "description": "Core JavaScript &amp; TypeScript notes, examples and interview prep.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "run-js": "node js/index.js",
+    "build": "tsc",
+    "run-ts": "tsc && node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InsideAmber/js-ts-interview-prep.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/InsideAmber/js-ts-interview-prep/issues"
+  },
+  "homepage": "https://github.com/InsideAmber/js-ts-interview-prep#readme",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

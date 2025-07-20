@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "rootDir": "./ts",      // Input .ts files
+    "outDir": "./dist",     // Output .js files
+    "module": "ESNext",
+    "target": "ES6",
+    "strict": true
+  },
+  "include": ["ts/**/*"]
+}
