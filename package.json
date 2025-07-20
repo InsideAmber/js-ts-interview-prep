@@ -6,8 +6,12 @@
   "type": "module",
   "scripts": {
     "run-js": "node js/index.js",
+    "watch-js": "nodemon --watch js js/index.js",
     "build": "tsc",
-    "run-ts": "tsc && node dist/index.js"
+    "watch": "tsc --watch",
+    "run-ts": "tsc && node dist/index.js",
+    "watch-ts": "concurrently -k -n COMPILER,NODE --prefix-colors yellow,blue \"tsc --watch\" \"nodemon dist/index.js\""
+
   },
   "repository": {
     "type": "git",
@@ -21,6 +25,8 @@
   },
   "homepage": "https://github.com/InsideAmber/js-ts-interview-prep#readme",
   "devDependencies": {
+    "concurrently": "^9.2.0",
+    "nodemon": "^3.1.10",
     "typescript": "^5.8.3"
   }
 }

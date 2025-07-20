@@ -8,6 +8,7 @@ let nothing = null;      // null
 let notDefined;          // undefined
 let symbol1 = Symbol("id"); // symbol
 
+console.log("JavaScript Data Types Demo:");
 console.log(typeof name);       // string
 console.log(typeof age);        // number
 console.log(typeof isActive);   // boolean
