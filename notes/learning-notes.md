@@ -7,7 +7,6 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     - `let` and `const` are block-scoped (i.e., limited to {} blocks like `if`, `for`, `while`, etc.)
 
    📌 Example:
-
     ```js
     function testScope() {
     if (true) {
@@ -15,9 +14,9 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     let b = 20;
     const c = 30;
      }
-        console.log(a); // ✅ 10 (function scoped)
-        console.log(b); // ❌ ReferenceError (block scoped)
-        console.log(c); // ❌ ReferenceError (block scoped)
+      console.log(a); // ✅ 10 (function scoped)
+      console.log(b); // ❌ ReferenceError (block scoped)
+      console.log(c); // ❌ ReferenceError (block scoped)
     }
     testScope();
     ```
@@ -25,12 +24,10 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
      - `var` declarations are hoisted and initialized with undefined.
      - `let` and `const` are hoisted too, but stay in a "temporal dead zone" (TDZ) until the actual line of declaration.
 
-     📌 Example:
-
+   📌 Example:
      ```js
      console.log(x); // undefined
      var x = 5;
-
      console.log(y); // ❌ ReferenceError
      let y = 10;
      ```
@@ -45,34 +42,31 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
 
     Note -  `const` only prevents reassignment of the variable, not mutation of the object or array it holds.
 
-    📌 Example:
+   📌 Example:
     ```js
     const obj = { name: "Amber" };
     obj.name = "John"; // ✅ Allowed (mutation)
-
     obj = {}; // ❌ TypeError
     ```
+    
 # 2. What are Closures in JavaScript?
 
    1. Definition:
+
     A closure is the combination of a function and the lexical environment within which that function was declared.
 
     In simple words:
-
     A closure gives you access to an outer function’s variables even after the outer function has finished executing.
 
-    🧠 Example to Understand Closures
-
+   🧠 Example to Understand Closures
     ```js
     function outer() {
     let counter = 0;
-
     return function inner() {
         counter++;
         console.log(`Counter: ${counter}`);
     };
     }
-
     const increment = outer(); // outer() returns inner function
     increment(); // Counter: 1
     increment(); // Counter: 2
