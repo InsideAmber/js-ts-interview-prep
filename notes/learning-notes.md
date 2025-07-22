@@ -2,9 +2,10 @@
 
 In JavaScript, var, let, and const are used to declare variables, but they differ in terms of scope, hoisting, and mutability:
 
-   1. 🧠 Scope 
-     - `var` is function-scoped.
-     - `let` and `const` are block-scoped (i.e., limited to {} blocks like `if`, `for`, `while`, etc.)
+   1. 🧠 Scope
+      
+      - `var` is function-scoped.
+      - `let` and `const` are block-scoped (i.e., limited to {} blocks like `if`, `for`, `while`, etc.)
 
    📌 Example:
    
@@ -23,8 +24,9 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
    ```
     
    2. ⬆️ Hoisting
-     - `var` declarations are hoisted and initialized with undefined.
-     - `let` and `const` are hoisted too, but stay in a "temporal dead zone" (TDZ) until the actual line of declaration.
+
+      - `var` declarations are hoisted and initialized with undefined.
+      - `let` and `const` are hoisted too, but stay in a "temporal dead zone" (TDZ) until the actual line of declaration.
 
    📌 Example:
    
