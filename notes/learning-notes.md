@@ -8,7 +8,7 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
 
    📌 Example:
    
-    ```js
+   ```js
     function testScope() {
     if (true) {
     var a = 10;
@@ -20,7 +20,7 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
       console.log(c); // ❌ ReferenceError (block scoped)
     }
     testScope();
-    ```
+   ```
     
     2. ⬆️ Hoisting
     
@@ -29,12 +29,12 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
 
    📌 Example:
    
-     ```js
+   ```js
      console.log(x); // undefined
      var x = 5;
      console.log(y); // ❌ ReferenceError
      let y = 10;
-     ```
+   ```
 
     3. 🔐 Re-declaration and Re-assignment
 
@@ -48,11 +48,11 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
 
    📌 Example:
    
-    ```js
+   ```js
     const obj = { name: "Amber" };
     obj.name = "John"; // ✅ Allowed (mutation)
     obj = {}; // ❌ TypeError
-    ```
+   ```
     
 # 2. What are Closures in JavaScript?
 
@@ -65,7 +65,7 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
 
    🧠 Example to Understand Closures
    
-    ```js
+   ```js
     function outer() {
     let counter = 0;
     return function inner() {
@@ -77,7 +77,7 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     increment(); // Counter: 1
     increment(); // Counter: 2
     increment(); // Counter: 3
-    ```
+   ```
 
    2. Explanation
       - `outer()` creates a variable counter.
