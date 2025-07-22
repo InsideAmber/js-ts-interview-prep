@@ -3,6 +3,7 @@
 In JavaScript, var, let, and const are used to declare variables, but they differ in terms of scope, hoisting, and mutability:
 
    1. 🧠 Scope
+      
     - `var` is function-scoped.
     - `let` and `const` are block-scoped (i.e., limited to {} blocks like `if`, `for`, `while`, etc.)
 
@@ -80,6 +81,7 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
    ```
 
    2. Explanation
+
       - `outer()` creates a variable counter.
       - It returns the `inner()` function, which remembers counter even after `outer()` has finished.
       - That memory is a closure — it keeps counter alive in the scope chain.
