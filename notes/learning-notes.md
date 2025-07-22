@@ -7,6 +7,7 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     - `let` and `const` are block-scoped (i.e., limited to {} blocks like `if`, `for`, `while`, etc.)
 
    📌 Example:
+   
     ```js
     function testScope() {
     if (true) {
@@ -20,11 +21,14 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     }
     testScope();
     ```
+    
     2. ⬆️ Hoisting
+    
      - `var` declarations are hoisted and initialized with undefined.
      - `let` and `const` are hoisted too, but stay in a "temporal dead zone" (TDZ) until the actual line of declaration.
 
    📌 Example:
+   
      ```js
      console.log(x); // undefined
      var x = 5;
@@ -43,6 +47,7 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     Note -  `const` only prevents reassignment of the variable, not mutation of the object or array it holds.
 
    📌 Example:
+   
     ```js
     const obj = { name: "Amber" };
     obj.name = "John"; // ✅ Allowed (mutation)
@@ -59,6 +64,7 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     A closure gives you access to an outer function’s variables even after the outer function has finished executing.
 
    🧠 Example to Understand Closures
+   
     ```js
     function outer() {
     let counter = 0;
