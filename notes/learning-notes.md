@@ -45,7 +45,8 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     | `let`   | ❌ Not Allowed  | ✅ Allowed     |
     | `const` | ❌ Not Allowed  | ❌ Not Allowed |
 
-    Note -  `const` only prevents reassignment of the variable, not mutation of the object or array it holds.
+   Note:
+   `const` only prevents reassignment of the variable, not mutation of the object or array it holds.
 
    📌 Example:
    
