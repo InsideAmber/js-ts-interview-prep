@@ -93,3 +93,90 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
    [Closure Code Example](https://github.com/InsideAmber/js-ts-interview-prep/blob/master/js/02-closure.js)
 
 
+## 3. What is Hoisting?
+
+Hoisting is JavaScript's default behavior of moving declarations (not initializations) to the top of their scope (global or function) before code execution.
+
+**Think of it like this**:
+
+During the compilation phase, JavaScript scans for variable and function declarations and “hoists” them to the top of their scope.
+
+`var` Hoisting Example:
+
+```js
+console.log(a); // undefined
+var a = 5;
+```
+Behind the scenes:
+
+```js
+var a;
+console.log(a); // undefined
+a = 5;
+```
+
+let and const Hoisting (TDZ – Temporal Dead Zone):
+
+```js
+console.log(b); // ❌ ReferenceError: Cannot access 'b' before initialization
+let b = 10;
+```
+
+Variables declared with `let` and `const` are hoisted, but not initialized, so they live in the TDZ until the line of declaration.
+
+Function Declaration Hoisting:
+
+```js
+sayHi(); // ✅ "Hi!"
+
+function sayHi() {
+  console.log("Hi!");
+}
+```
+
+Behind the scenes:
+
+ - The entire function is hoisted (both name and body).
+
+ Function Expression Hoisting:
+
+ ```js
+ greet(); // ❌ TypeError: greet is not a function
+
+var greet = function () {
+  console.log("Hello!");
+};
+```
+
+Why?
+
+ - Only var greet is hoisted (as undefined)
+
+ - greet() becomes undefined() → ❌ TypeError
+
+Real Interview Example: Order of Execution:
+
+```js
+    console.log(name);       // undefined
+    var name = "Amber";
+
+    hello();                // ✅ prints Hello!
+    function hello() {
+        console.log("Hello!");
+    }
+
+    bye();                  // ❌ TypeError: bye is not a function
+    var bye = function () {
+    console.log("Bye!");
+    };
+```
+
+### Summary:
+
+| Type                  | Hoisted?            | Initialized?   | Access Before Init                     |
+| --------------------- | ------------------  | ------------   | -------------------------------------  |
+| `var`                 | ✅ Yes              | ✅ undefined  | ✅ Returns `undefined`                 |
+| `let` / `const`       | ✅ Yes              | ❌ No         | ❌ ReferenceError (TDZ)                |
+| `function`            | ✅ Yes              | ✅ Yes        | ✅ Safe to call                        |
+| `function expression` | ✅ Var hoisted only | ❌ No         | ❌ TypeError if used before definition |
+
