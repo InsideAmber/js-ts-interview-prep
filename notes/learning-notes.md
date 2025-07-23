@@ -241,7 +241,7 @@ Let’s say you have a list of items, and you want to respond to clicks on each 
 
 When an event happens on an element:
 
-- It bubbles up from the target (<li>) to its ancestors (<ul>, <body>, etc.)
+- It bubbles up from the target (`<li>`) to its ancestors (`<ul>`, `<body>`, etc.)
 
 - You can intercept it at any level using .addEventListener()
 
@@ -263,7 +263,7 @@ This pattern is especially useful for dynamic lists like:
   ))}
 </ul>
 ```
-Instead of adding onClick to every <li>, you attach one to <ul>.
+Instead of adding onClick to every `<li>`, you attach one to `<ul>`.
 
 | Concept                 | React Behavior                       |
 | ----------------------- | ---------------------------------    |
