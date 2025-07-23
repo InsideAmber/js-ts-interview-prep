@@ -58,14 +58,14 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     
 ## 2. What are Closures in JavaScript?
 
-   1. Definition:
+1. Definition:
 
     A closure is the combination of a function and the lexical environment within which that function was declared.
 
     In simple words:
     A closure gives you access to an outer function’s variables even after the outer function has finished executing.
 
-   🧠 Example to Understand Closures
+ 🧠 Example to Understand Closures
    
    ```js
     function outer() {
@@ -81,7 +81,7 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     increment(); // Counter: 3
    ```
 
-   2. Explanation
+2. Explanation
 
       - `outer()` creates a variable counter.
       - It returns the `inner()` function, which remembers counter even after `outer()` has finished.
@@ -90,6 +90,6 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     Real-World Use Case: Private Variables
     Closures can be used to create private variables, like in a counter, shopping cart, or bank account.
     
-   [Example]()
+   [Example](https://github.com/InsideAmber/js-ts-interview-prep/blob/master/js/02-closure.js)
 
 
