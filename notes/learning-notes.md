@@ -213,7 +213,7 @@ Let’s say you have a list of items, and you want to respond to clicks on each 
   });
 </script>
 ```
-💥 Problem: If more <li>s are added dynamically, they won’t have listeners.
+💥 Problem: If more `<li>`s are added dynamically, they won’t have listeners.
 
 ✅ With Event Delegation (efficient):
 
@@ -235,7 +235,7 @@ Let’s say you have a list of items, and you want to respond to clicks on each 
   });
 </script>
 ```
-🎯 Now even if you add a new <li> dynamically, the handler still works!
+🎯 Now even if you add a new `<li>` dynamically, the handler still works!
 
 🔬 How It Works: Event Bubbling
 
