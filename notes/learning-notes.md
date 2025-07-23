@@ -65,15 +65,15 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     In simple words:
     A closure gives you access to an outer function’s variables even after the outer function has finished executing.
 
- 🧠 Example to Understand Closures
+  Example to Understand Closures
    
    ```js
     function outer() {
     let counter = 0;
     return function inner() {
-        counter++;
-        console.log(`Counter: ${counter}`);
-    };
+     counter++;
+     console.log(`Counter: ${counter}`);
+    }
     }
     const increment = outer(); // outer() returns inner function
     increment(); // Counter: 1
