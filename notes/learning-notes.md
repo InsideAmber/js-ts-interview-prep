@@ -246,6 +246,7 @@ When an event happens on an element:
 - You can intercept it at any level using .addEventListener()
 
 🧠 What is Event Bubbling?
+
 Event bubbling is a behavior in the DOM where an event starts at the target element (the actual element you interacted with) and then bubbles up (propagates) through its ancestors — all the way up to the root (document).
 
 🔄 In simpler terms:
