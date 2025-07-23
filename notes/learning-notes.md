@@ -115,7 +115,7 @@ console.log(a); // undefined
 a = 5;
 ```
 
-let and const Hoisting (TDZ – Temporal Dead Zone):
+`let` and `const` Hoisting (TDZ – Temporal Dead Zone):
 
 ```js
 console.log(b); // ❌ ReferenceError: Cannot access 'b' before initialization
@@ -150,9 +150,9 @@ var greet = function () {
 
 Why?
 
- - Only var greet is hoisted (as undefined)
+ - Only `var` greet is hoisted (as undefined)
 
- - greet() becomes undefined() → ❌ TypeError
+ - `greet()` becomes `undefined()` → ❌ TypeError
 
 Real Interview Example: Order of Execution:
 
@@ -179,4 +179,96 @@ Real Interview Example: Order of Execution:
 | `let` / `const`       | ✅ Yes              | ❌ No         | ❌ ReferenceError (TDZ)                |
 | `function`            | ✅ Yes              | ✅ Yes        | ✅ Safe to call                        |
 | `function expression` | ✅ Var hoisted only | ❌ No         | ❌ TypeError if used before definition |
+
+## 4. What is Event Delegation?
+
+Event Delegation is a pattern in JavaScript where you attach a single event listener to a parent element, and handle events for its child elements through event bubbling.
+
+🧠 Why is it Useful?
+
+- ✅ Performance: Reduces the number of event listeners in the DOM.
+
+- ✅ Dynamic Elements: Handles elements that are added to the DOM later.
+
+- ✅ Cleaner Code: No need to manually bind/unbind listeners for individual child elements.
+
+Example:
+
+Let’s say you have a list of items, and you want to respond to clicks on each `<li>`.
+
+❌ Without Event Delegation (inefficient):
+
+```js
+<ul id="fruit-list">
+  <li>Apple</li>
+  <li>Banana</li>
+  <li>Orange</li>
+</ul>
+
+<script>
+  document.querySelectorAll('#fruit-list li').forEach(item => {
+    item.addEventListener('click', () => {
+      console.log(item.textContent);
+    });
+  });
+</script>
+```
+💥 Problem: If more <li>s are added dynamically, they won’t have listeners.
+
+✅ With Event Delegation (efficient):
+
+```js
+<ul id="fruit-list">
+  <li>Apple</li>
+  <li>Banana</li>
+  <li>Orange</li>
+</ul>
+
+<script>
+  const list = document.getElementById('fruit-list');
+
+  list.addEventListener('click', function (event) {
+    // Check if clicked element is a <li>
+    if (event.target.tagName === 'LI') {
+      console.log('Clicked on:', event.target.textContent);
+    }
+  });
+</script>
+```
+🎯 Now even if you add a new <li> dynamically, the handler still works!
+
+🔬 How It Works: Event Bubbling
+
+When an event happens on an element:
+
+- It bubbles up from the target (<li>) to its ancestors (<ul>, <body>, etc.)
+
+- You can intercept it at any level using .addEventListener()
+
+🧠 What is Event Bubbling?
+Event bubbling is a behavior in the DOM where an event starts at the target element (the actual element you interacted with) and then bubbles up (propagates) through its ancestors — all the way up to the root (document).
+
+🔄 In simpler terms:
+When you click on an element, the event doesn’t stop there — it “bubbles up” through its parent, grandparent, and so on.
+
+🛠️ Real-World Use Case(Event delegation in react):
+This pattern is especially useful for dynamic lists like:
+
+```tsx
+<ul onClick={handleClick}>
+  {items.map((item) => (
+    <li key={item.id} data-id={item.id}>
+      {item.name}
+    </li>
+  ))}
+</ul>
+```
+Instead of adding onClick to every <li>, you attach one to <ul>.
+
+| Concept                 | React Behavior                       |
+| ----------------------- | ---------------------------------    |
+| Event Delegation        | ✅ Built-in using synthetic events  |
+| Manual Delegation Need? | ❌ Rarely — React handles it        |
+| Use Case                | Dynamic list, reusable handlers      |
+
 
