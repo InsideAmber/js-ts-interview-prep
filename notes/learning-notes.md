@@ -90,6 +90,6 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     Real-World Use Case: Private Variables
     Closures can be used to create private variables, like in a counter, shopping cart, or bank account.
     
-   [Example](https://github.com/InsideAmber/js-ts-interview-prep/blob/master/js/02-closure.js)
+   [Closure Code Example](https://github.com/InsideAmber/js-ts-interview-prep/blob/master/js/02-closure.js)
 
 
