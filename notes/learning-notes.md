@@ -1,4 +1,4 @@
-# 1. What's the difference between var, let, and const?
+## 1. What's the difference between var, let, and const?
 
 In JavaScript, var, let, and const are used to declare variables, but they differ in terms of scope, hoisting, and mutability:
 
@@ -56,7 +56,7 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     obj = {}; // ❌ TypeError
    ```
     
-# 2. What are Closures in JavaScript?
+## 2. What are Closures in JavaScript?
 
    1. Definition:
 
@@ -87,8 +87,9 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
       - It returns the `inner()` function, which remembers counter even after `outer()` has finished.
       - That memory is a closure — it keeps counter alive in the scope chain.
 
-    🌍 Real-World Use Case: Private Variables
+    Real-World Use Case: Private Variables
     Closures can be used to create private variables, like in a counter, shopping cart, or bank account.
-    [Example]()
+    
+   [Example]()
 
 
