@@ -273,3 +273,92 @@ Instead of adding onClick to every `<li>`, you attach one to `<ul>`.
 | Use Case                | Dynamic list, reusable handlers      |
 
 
+## 5. `this` Keyword in JavaScript 
+
+1. What is `this`?
+
+`this` is a special keyword in JavaScript that refers to the object that is executing the current function.
+
+Its value depends on:
+
+Where it’s used (global, inside object, function, or class)
+
+How the function is called
+
+Function type: Regular vs Arrow
+
+2. `this` in Regular Functions vs Arrow Functions
+
+✅ Regular Function
+
+```js
+const obj = {
+  name: "Amber",
+  sayHi: function () {
+    console.log("Hi", this.name); // 'this' refers to `obj`
+  },
+};
+obj.sayHi(); // Output: Hi Amber
+`this` points to the calling object.
+```
+
+In regular functions, `this` is dynamic — determined by the call site.
+
+🚫 Arrow Function
+
+```js
+const obj = {
+  name: "Amber",
+  sayHi: () => {
+    console.log("Hi", this.name); // 'this' is not obj!
+  },
+};
+obj.sayHi(); // Output: Hi undefined (in browser)
+Arrow functions don’t have their own `this`.
+```
+
+They inherit this from their surrounding (lexical) scope — where they were defined, not called.
+
+3. this in Global Scope
+
+✅ In Browser:
+
+```js
+console.log(this); // Window
+var a = 10;
+console.log(this.a); // 10
+this at the global level refers to window.
+```
+
+ - var-declared variables become properties of window.
+ - let and const do not attach to this.
+
+⚙️ In Node.js:
+
+```js
+console.log(this); // {} or undefined (ESM)
+this is not global in Node.
+
+In CommonJS: this === module.exports
+
+In ES Modules (with "type": "module"): this === undefined at top level
+```
+
+✅ Summary Table
+
+| Context          | Regular Function `this`  | Arrow Function `this`      |
+| ---------------- | ------------------------ | -------------------------- |
+| Inside object    | Refers to the object     | Inherited from outer scope |
+| Global (Browser) | `window`                 | `window`                   |
+| Global (Node.js) | `module.exports` or `{}` | Same as above              |
+| Inside Class     | Refers to instance       | Inherited (be careful)     |
+
+
+Pro Tips : 
+
+Use regular functions when you need dynamic `this`.
+
+Use arrow functions when you want to preserve `this` from outer scope (e.g., inside event listeners, callbacks).
+
+In classes or object methods, prefer regular functions for methods and arrow functions for callbacks.
+
