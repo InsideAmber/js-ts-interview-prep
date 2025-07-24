@@ -277,15 +277,15 @@ Instead of adding onClick to every `<li>`, you attach one to `<ul>`.
 
 1. What is `this`?
 
-`this` is a special keyword in JavaScript that refers to the object that is executing the current function.
-
-Its value depends on:
-
-Where it’s used (global, inside object, function, or class)
-
-How the function is called
-
-Function type: Regular vs Arrow
+   `this` is a special keyword in JavaScript that refers to the object that is executing the current function.
+   
+   Its value depends on:
+   
+   Where it’s used (global, inside object, function, or class)
+   
+   How the function is called
+   
+   Function type: Regular vs Arrow
 
 2. `this` in Regular Functions vs Arrow Functions
 
