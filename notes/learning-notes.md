@@ -1,4 +1,5 @@
-## 1. What's the difference between var, let, and const?
+<details>
+<summary> ## 1. What's the difference between var, let, and const? </summary>
 
 In JavaScript, var, let, and const are used to declare variables, but they differ in terms of scope, hoisting, and mutability:
 
@@ -55,7 +56,7 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
     obj.name = "John"; // ✅ Allowed (mutation)
     obj = {}; // ❌ TypeError
    ```
-    
+</details>  
 ## 2. What are Closures in JavaScript?
 
 1. Definition:
