@@ -1,5 +1,5 @@
 <details>
-<summary> ## 1. What's the difference between var, let, and const? </summary>
+<summary> <h2> 1. What's the difference between var, let, and const? </h2></summary>
 
 In JavaScript, var, let, and const are used to declare variables, but they differ in terms of scope, hoisting, and mutability:
 
