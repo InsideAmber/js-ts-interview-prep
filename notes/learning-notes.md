@@ -367,3 +367,84 @@ Pro Tips :
 
 - In classes or object methods, prefer regular functions for methods and arrow functions for callbacks.
 
+## 6. What is a Promise in JavaScript?
+
+A Promise is an object that represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
+
+States of a Promise:
+
+- pending: Initial state, neither fulfilled nor rejected.
+
+- fulfilled: Operation completed successfully.
+
+- rejected: Operation failed.
+
+Basic Example with Promises:
+
+```js
+const fetchData = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const success = true;
+      if (success) resolve("Data fetched successfully!");
+      else reject("Error fetching data.");
+    }, 1000);
+  });
+};
+
+fetchData()
+  .then((res) => console.log(res))
+  .catch((err) => console.error(err));
+```
+
+**What is Async/Await?**
+
+`async/await` is syntactic sugar built on top of Promises. It makes asynchronous code look and behave more like synchronous code.
+
+Same example using async/await:
+
+```js
+const fetchData = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const success = true;
+      if (success) resolve("Data fetched!");
+      else reject("Error occurred.");
+    }, 1000);
+  });
+};
+
+const getData = async () => {
+  try {
+    const result = await fetchData();
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+getData();
+```
+
+Differences: Promise vs Async/Await:
+
+| Feature        | Promise                                        | Async/Await                       |
+| -------------- | ---------------------------------------------- | --------------------------------- |
+| Syntax         | Chained using `.then()` / `.catch()`           | Uses `async` and `await` keywords |
+| Readability    | Can get messy in nested chains                 | Cleaner and easier to read        |
+| Error Handling | Requires `.catch()` or second arg in `.then()` | Use `try...catch` block           |
+| Flow Control   | Less natural                                   | Feels synchronous                 |
+
+
+Common Pitfalls:
+
+- Forgetting await leads to unresolved Promises.
+
+- Mixing then and await can get messy.
+
+- Async functions always return a Promise.
+
+```js
+const example = async () => "hello";
+console.log(example()); // Promise<string>
+```
