@@ -281,7 +281,7 @@ Instead of adding onClick to every `<li>`, you attach one to `<ul>`.
    
    Its value depends on:
    
-   Where it’s used (global, inside object, function, or class)
+   Where it’s used (`global`, inside `object`, `function`, or `class`)
    
    How the function is called
    
@@ -317,7 +317,7 @@ obj.sayHi(); // Output: Hi undefined (in browser)
 Arrow functions don’t have their own `this`.
 ```
 
-They inherit this from their surrounding (lexical) scope — where they were defined, not called.
+They inherit `this` from their surrounding (lexical) scope — where they were defined, not called.
 
 3. this in Global Scope
 
@@ -329,11 +329,11 @@ var a = 10;
 console.log(this.a); // 10
 ```
 
- - this at the global level refers to window.
+ - `this` at the global level refers to window.
    
  - var-declared variables become properties of window.
    
- - let and const do not attach to this.
+ - `let` and `const` do not attach to this.
 
 ⚙️ In Node.js:
 
