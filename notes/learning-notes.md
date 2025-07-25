@@ -327,22 +327,26 @@ They inherit this from their surrounding (lexical) scope — where they were def
 console.log(this); // Window
 var a = 10;
 console.log(this.a); // 10
-this at the global level refers to window.
 ```
 
+ - this at the global level refers to window.
+   
  - var-declared variables become properties of window.
+   
  - let and const do not attach to this.
 
 ⚙️ In Node.js:
 
 ```js
 console.log(this); // {} or undefined (ESM)
-this is not global in Node.
-
-In CommonJS: this === module.exports
-
-In ES Modules (with "type": "module"): this === undefined at top level
 ```
+
+- `this` is not `global` in Node.
+  
+- In CommonJS: `this === module.exports`
+  
+- In ES Modules (with "type": "module"): `this === undefined at top level`
+
 
 ✅ Summary Table
 
@@ -356,9 +360,9 @@ In ES Modules (with "type": "module"): this === undefined at top level
 
 Pro Tips : 
 
-Use regular functions when you need dynamic `this`.
+- Use regular functions when you need dynamic `this`.
 
-Use arrow functions when you want to preserve `this` from outer scope (e.g., inside event listeners, callbacks).
+- Use arrow functions when you want to preserve `this` from outer scope (e.g., inside event listeners, callbacks).
 
-In classes or object methods, prefer regular functions for methods and arrow functions for callbacks.
+- In classes or object methods, prefer regular functions for methods and arrow functions for callbacks.
 
