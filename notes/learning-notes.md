@@ -673,7 +673,174 @@ Where?
 
 ## 8. What is the event loop in JavaScript?
 
+The Event Loop is a fundamental concept in JavaScript that enables non-blocking asynchronous behavior, allowing JS to handle tasks like I/O, timers, and promises while still being single-threaded.
 
+What is the Event Loop?
+JavaScript has one main call stack (single thread) that processes synchronous code. But to handle asynchronous operations like:
+
+- `setTimeout`, `setInterval`
+
+- `fetch`, `AJAX`
+
+- `Promises`
+
+- `DOM` events
+
+JavaScript uses an Event Loop to coordinate the Call Stack, Web APIs, and two queues:
+
+- Microtask Queue (e.g., Promises `.then`, `MutationObserver`)
+
+- Macrotask Queue (e.g., `setTimeout`, `setInterval`, `setImmediate`, `requestAnimationFrame`)
+
+📊 Visual Breakdown:
+
+|---------------------------|
+|      Call Stack           |  <- Executes JS code
+|---------------------------|
+|      Web APIs             |  <- Handles async ops like timers, fetch, DOM events
+|---------------------------|
+|   Microtask Queue         |  <- Promises, process.nextTick (Node.js)
+|---------------------------|
+|   Macrotask Queue         |  <- Timers, UI events, setTimeout, setInterval
+|---------------------------|
+             ↓
+       [Event Loop]
+
+
+Execution Order:
+
+- When the call stack is empty:
+
+- Event loop checks microtasks queue first.
+
+- Runs all microtasks until the queue is empty.
+
+- Then picks one macrotask from the macrotask queue and runs it.
+
+Repeats the cycle.
+
+<details>
+<summary>Some Code Examples - </summary>
+
+Microtask vs Macrotask Code Example:
+
+```js
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Macrotask: setTimeout");
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("Microtask: Promise.then");
+});
+
+console.log("End");
+```
+
+Output:
+
+```js
+Start
+End
+Microtask: Promise.then
+Macrotask: setTimeout
+```
+
+Why?
+
+- "Start" and "End" are synchronous → printed immediately.
+
+- `Promise.then` is a microtask → runs before macrotasks.
+
+- `setTimeout` is a macrotask → runs after microtasks.
+
+Real Example with Nested Queues:
+
+```js
+console.log("script start");
+
+setTimeout(() => {
+  console.log("setTimeout");
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("promise1");
+}).then(() => {
+  console.log("promise2");
+});
+
+console.log("script end");
+```
+
+Output:
+
+```js
+script start
+script end
+promise1
+promise2
+setTimeout
+```
+
+Common Interview Questions:
+
+Q1: What is the difference between microtasks and macrotasks?
+
+- Microtasks (like Promises) are prioritized and executed after each sync task before any macrotask.
+
+- Macrotasks (like setTimeout) are queued and executed after microtasks are finished.
+
+Q2: Can a macrotask starve microtasks?
+No. After each macrotask, all microtasks are flushed before the next macrotask.
+
+Q3: What happens if microtasks are never empty?
+If you keep pushing microtasks infinitely, it can block the event loop, e.g., infinite Promise chaining:
+
+```js
+Promise.resolve().then(function recursive() {
+  console.log("Infinite microtask");
+  Promise.resolve().then(recursive);
+});
+```
+This will freeze the browser.
+
+Q4: Event loop priority example?
+
+```js
+setTimeout(() => console.log("Macrotask 1"), 0);
+
+Promise.resolve().then(() => {
+  console.log("Microtask 1");
+  return Promise.resolve("Microtask 2");
+}).then(console.log);
+
+setTimeout(() => console.log("Macrotask 2"), 0);
+```
+Output:
+
+```js
+Microtask 1
+Microtask 2
+Macrotask 1
+Macrotask 2
+```
+
+</details>
+
+Event Loop in Browser vs Node.js:
+
+- In browsers, microtasks are `Promise.then` and `MutationObserver`.
+
+- In Node.js, microtasks are `process.nextTick` and `Promises`.
+
+Key Takeaways:
+
+| Aspect    | Microtask Queue                    | Macrotask Queue               |
+| --------- | ---------------------------------- | ----------------------------- |
+| Examples  | `Promise.then`, `queueMicrotask()` | `setTimeout`, `setInterval`   |
+| Priority  | Higher (runs first)                | Lower (runs after microtasks) |
+| Use Cases | Short, urgent callbacks            | Timers, UI rendering          |
 
 
 
