@@ -448,3 +448,155 @@ Common Pitfalls:
 const example = async () => "hello";
 console.log(example()); // Promise<string>
 ```
+
+## 7. What are call, apply, and bind?
+
+These are methods available on functions, and they're used to manually set the `this` context inside a function.
+
+Why do we need them?
+
+JavaScript functions by default have their own `this` binding based on how they're called. But sometimes, we need to manually control `this`, especially when reusing methods between objects or dealing with callbacks.
+
+**Definitions**
+
+| Method  | Executes Function   | Arguments                   | Use Case                 |
+|---------|-------------------  |---------------------------- |------------------------- |
+| `call`  | ✅ Yes             | `fn.call(this, arg1, arg2)`  | Immediate call with args |
+| `apply` | ✅ Yes             | `fn.apply(this, [args])`     | Immediate with array     |
+| `bind`  | ❌ No              | `fn.bind(this)`              | Returns new bound fn     |
+
+Example with All 3:
+
+```js
+function greet(this: any, greeting: string, punctuation: string) {
+  console.log(`${greeting}, ${this.name}${punctuation}`);
+}
+
+const person = { name: "Amber" };
+const otherPerson = { name: "Kanav" };
+
+// 1. call()
+greet.call(person, "Hello", "!"); // Hello, Amber!
+greet.call(otherPerson, "Hi", "😊"); // Hi, Kanav😊
+
+// 2. apply()
+greet.apply(person, ["Welcome", "."]); // Welcome, Amber.
+greet.apply(otherPerson, ["Hey", "!!"]); // Hey, Kanav!!
+
+// 3. bind()
+const boundGreet = greet.bind(person, "Good Morning", "🌅");
+boundGreet(); // Good Morning, Amber🌅
+```
+
+<details>
+<summary>In-depth Breakdown</summary>
+
+`call(thisArg, arg1, arg2, ...)`
+
+```js
+const car = {
+  brand: "Tesla",
+};
+
+function showCar(this: any, speed: number) {
+  console.log(`${this.brand} is running at ${speed} km/h`);
+}
+
+showCar.call(car, 120); // Tesla is running at 120 km/h
+```
+
+- Sets `this` to car
+
+- Immediately invokes `showCar()`
+
+`apply(thisArg, [argsArray])`
+
+```js
+const bike = {
+  brand: "Yamaha",
+};
+
+showCar.apply(bike, [85]); // Yamaha is running at 85 km/h
+```
+
+- Useful when you already have arguments in an array.
+
+`bind(thisArg)`
+
+```js
+const myCar = {
+  brand: "BMW",
+};
+
+const boundShow = showCar.bind(myCar, 100); // returns a new function
+boundShow(); // BMW is running at 100 km/h
+```
+
+- Doesn't execute immediately.
+
+- Returns a copy of the function with fixed this.
+
+`this` inside arrow functions vs normal functions
+
+Arrow functions do not bind their own this, so call/apply/bind don’t change it!
+
+```js
+const obj = {
+  value: 42,
+  arrowFunc: () => {
+    console.log(this.value); // ❌ undefined (global `this`)
+  },
+  regularFunc: function () {
+    console.log(this.value); // ✅ 42
+  }
+};
+
+obj.arrowFunc();
+obj.regularFunc();
+```
+
+Interview Trick Questions:
+
+1. What will this log?
+
+```js
+const obj = {
+  val: 100,
+  getVal: function () {
+    return this.val;
+  }
+};
+
+const get = obj.getVal;
+console.log(get()); // ❌ undefined (global `this`)
+console.log(get.call(obj)); // ✅ 100
+```
+
+2. What if we use bind twice?
+
+```js
+function show(this: any) {
+  console.log(this.name);
+}
+
+const bound1 = show.bind({ name: "A" });
+const bound2 = bound1.bind({ name: "B" });
+bound2(); // A — bind works only once
+```
+
+Arrow functions ignore call/apply/bind:
+
+Arrow functions inherit this from outer scope.
+
+```js
+const obj = {
+  val: 1,
+  arrow: () => console.log(this.val),
+  regular: function () { console.log(this.val); }
+};
+```
+
+</details>
+
+
+
