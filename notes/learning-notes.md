@@ -596,7 +596,84 @@ const obj = {
 };
 ```
 
+
+When and Where to Use call, apply, bind in Real Projects:
+
+1. Reusing logic between objects (e.g., utility functions)
+
+```js
+function calculateDiscount(this: any) {
+  return this.price - (this.price * this.discount);
+}
+
+const productA = { price: 1000, discount: 0.2 };
+const productB = { price: 800, discount: 0.1 };
+
+console.log(calculateDiscount.call(productA)); // 800
+console.log(calculateDiscount.call(productB)); // 720
+```
+
+2. Function borrowing (object method sharing)
+Let’s say Object A has a method and you want Object B to use it without copying:
+
+```js
+const user1 = {
+  name: "Amber",
+  greet() {
+    console.log(`Hi, I’m ${this.name}`);
+  }
+};
+
+const user2 = { name: "Shaivya" };
+
+user1.greet.call(user2); // Hi, I’m Shaivya
+```
+
+3.  Partial application (like currying) with `bind()`
+
+```js
+function log(level: string, message: string) {
+  console.log(`[${level}]: ${message}`);
+}
+
+const errorLog = log.bind(null, "ERROR");
+errorLog("Something broke"); // [ERROR]: Something broke
+```
+
+Where?
+
+- Logging modules
+
+- Analytics tracking
+
+- utils/logger.ts or services/trackers.ts
+
+4. Using Array methods on array-like objects with `call()`
+
+In DOM work or older codebases:
+
+```js
+function printArgs() {
+  const args = Array.prototype.slice.call(arguments);
+  console.log(args); // Converts arguments to real array
+}
+
+printArgs(1, 2, 3);
+```
+
+Where?
+
+- Inside low-level DOM/event libraries
+
+- Polyfills
+
+- Working with arguments, NodeList, HTMLCollection etc.
+
 </details>
+
+## 8. What is the event loop in JavaScript?
+
+
 
 
 
