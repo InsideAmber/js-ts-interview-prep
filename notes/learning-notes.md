@@ -694,6 +694,7 @@ JavaScript uses an Event Loop to coordinate the Call Stack, Web APIs, and two qu
 
 📊 Visual Breakdown:
 
+```js
 |---------------------------|
 |      Call Stack           |  <- Executes JS code
 |---------------------------|
@@ -705,7 +706,7 @@ JavaScript uses an Event Loop to coordinate the Call Stack, Web APIs, and two qu
 |---------------------------|
              ↓
        [Event Loop]
-
+```
 
 Execution Order:
 
