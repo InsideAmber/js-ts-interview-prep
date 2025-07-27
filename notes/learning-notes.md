@@ -845,3 +845,188 @@ Key Takeaways:
 
 
 
+## 9. Debounce and Throttle function in javascript
+
+1. What is Debounce?
+
+Debounce ensures that a function is only called after a specified delay once the last event is fired.
+If the event keeps firing, the timer resets.
+
+
+
+Code Example:
+
+```js
+// ✅ Debounce: delays execution until after delay period passes without further calls
+function debounce(func: Function, delay: number) {
+  let timer: ReturnType<typeof setTimeout>;
+
+  return function (...args: any[]) {
+    // Clear previous timer
+    clearTimeout(timer);
+
+    // Set new timer
+    timer = setTimeout(() => {
+      // 🔐 .apply used to preserve 'this' context if func is a method inside an object
+      func.apply(this, args);
+    }, delay);
+  };
+}
+
+// Mock search handler
+function handleSearch(query) {
+    console.log("Searching for:", query);
+}
+
+const debouncedSearch = debounce(handleSearch, 500);
+
+const input = document.getElementById("searchInput");
+input.addEventListener("input", (e) => {
+      debouncedSearch(e.target.value);
+});
+
+```
+✅ Debounce:
+
+- What it does: Waits for you to stop typing, and only then — after the delay — runs the function.
+
+- Behavior: Keeps resetting the timer on each keystroke. Only fires once, when you're done typing.
+
+- Use Case: Ideal for auto-saving draft after the user pauses typing.
+
+*Think: "I’ll wait till you're done, then I’ll do my job."*
+
+Example Output:
+
+```js
+[Typing...] d, de, deb, debo, debou, debounce
+[Pause for 1000ms]
+→ Logs: "debounce"
+```
+
+
+2. What is Throttle?
+Throttle ensures a function is called at most once every X milliseconds, even if the event keeps firing.
+
+
+Code Example:
+
+```js
+// ✅ Throttle: ensures function is called at most once every delay period
+function throttle(func: Function, delay: number) {
+  let lastCall = 0;
+
+  return function (...args: any[]) {
+    const now = new Date().getTime();
+
+    if (now - lastCall >= delay) {
+      lastCall = now;
+
+      // 🔐 .apply used to preserve 'this' context if func is a method inside an object
+      func.apply(this, args);
+    }
+  };
+}
+
+```
+
+Use with Reactjs 
+
+```jsx
+import React, { useEffect, useState } from "react";
+
+// ✅ Throttle function (vanilla JS style)
+function throttle(func: Function, delay: number) {
+  let lastCall = 0;
+  return function (...args: any[]) {
+    const now = new Date().getTime();
+    if (now - lastCall >= delay) {
+      lastCall = now;
+      func.apply(this, args); // for safety if func uses `this`
+    }
+  };
+}
+
+const InfiniteScroll: React.FC = () => {
+  const [items, setItems] = useState<string[]>([]);
+
+  // ✅ Mock load more function
+  const loadMoreItems = () => {
+    console.log("Loading more items...");
+    const newItems = Array.from({ length: 10 }, (_, i) => `Item ${items.length + i + 1}`);
+    setItems((prev) => [...prev, ...newItems]);
+  };
+
+  // ✅ Scroll handler
+  const handleScroll = throttle(() => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight - 10) {
+      loadMoreItems();
+    }
+  }, 300);
+
+  useEffect(() => {
+    // Load initial items
+    loadMoreItems();
+
+    // Attach throttled scroll event
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-4">Infinite Scroll</h1>
+      <ul className="space-y-2">
+        {items.map((item, index) => (
+          <li key={index} className="bg-gray-100 p-2 rounded shadow">{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default InfiniteScroll;
+```
+
+✅ Throttle:
+
+- What it does: Executes the function at most once every X ms, no matter how fast or often you're typing.
+
+- Behavior: Doesn’t wait for you to stop. It runs on intervals.
+
+- Use Case: Useful for scroll events, resize, or logging live activity at intervals.
+
+*Think: "I'll check in every X ms and do something with your latest input."*
+
+Example Output (delay = 1000ms):
+
+```js
+[Typing rapidly...]
+→ Logs: "d"       [at 0ms]
+→ Logs: "debo"    [at 1000ms]
+→ Logs: "debounc" [at 2000ms]
+→ Logs: "debounce" [at 3000ms]
+```
+
+Improtant Notes: 
+
+**🔹 When to use `.apply(this, args)`:**
+- Use when your original function relies on `this` (e.g., a method of an object).
+
+- Ensures this remains correctly bound — especially inside `setTimeout`, event handlers, or custom utility functions like `debounce`, `throttle`, etc.
+
+**🔹 When not necessary:**
+- If the function is standalone and doesn’t use `this`, you can safely use `fn(...args)`.
+
+**🔹 Safe fallback:**
+- Even when unsure, using `.apply(this, args)` is safe and doesn’t hurt, making it a good default in reusable utilities.
+
+Summary Table:
+
+| Feature        | Debounce                    | Throttle                        |
+| -------------- | --------------------------- | ------------------------------- |
+| Triggers       | After user **stops** action | At **regular intervals**        |
+| Reset timer?   | ✅ Yes                      | ❌ No                          |
+| Useful for     | Typing, Search, Resize End  | Scrolling, Dragging, Mouse Move |
+| Execution freq | **Once** per pause          | **Repeated** at intervals       |
