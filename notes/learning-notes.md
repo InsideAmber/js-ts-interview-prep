@@ -847,7 +847,7 @@ Key Takeaways:
 
 ## 9. Debounce and Throttle function in javascript
 
-1. What is Debounce?
+**What is Debounce?**
 
 Debounce ensures that a function is only called after a specified delay once the last event is fired.
 If the event keeps firing, the timer resets.
@@ -905,7 +905,8 @@ Example Output:
 ```
 
 
-2. What is Throttle?
+**What is Throttle?**
+
 Throttle ensures a function is called at most once every X milliseconds, even if the event keeps firing.
 
 
