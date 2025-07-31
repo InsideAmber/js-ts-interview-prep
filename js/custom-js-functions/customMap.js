@@ -8,3 +8,9 @@ export function customMap(array, callback) {
   }
   return result;
 }
+
+/**
+ callback(array[i], i, array) is simply calling the callback function (num) => num * 2 
+ with the current element, its index, and the entire array.
+
+ */
