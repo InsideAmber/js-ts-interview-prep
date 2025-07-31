@@ -1031,3 +1031,139 @@ Summary Table:
 | Reset timer?   | ✅ Yes                      | ❌ No                          |
 | Useful for     | Typing, Search, Resize End  | Scrolling, Dragging, Mouse Move |
 | Execution freq | **Once** per pause          | **Repeated** at intervals       |
+
+
+## 10. Shallow copy VS Deep copy
+
+What is Shallow Copy?
+
+A shallow copy duplicates only the first level of an object or array. If the original object has nested objects or arrays, the references to those inner objects are copied, not the actual nested content.
+
+Example of Shallow Copy:
+
+```js
+const original = {
+  name: "Amber",
+  address: {
+    city: "Delhi",
+  },
+};
+
+const shallowCopy = { ...original };
+
+// Modify nested object
+shallowCopy.address.city = "Mumbai";
+
+console.log(original.address.city); // ❗Output: "Mumbai"
+```
+*Only top-level properties are copied. The nested object is shared between both.*
+
+Use Cases of Shallow Copy
+
+When to Use Shallow Copy:
+
+A shallow copy duplicates only the top-level properties, not nested ones. It’s faster and often enough if your object has only primitive values or you don't need to mutate deeply nested data.
+
+Use Case Examples:
+
+1. Updating simple state objects (React)
+
+```js
+const user = { name: "Amber", age: 30 };
+const updatedUser = { ...user, age: 31 }; // shallow copy + update
+```
+
+2. Passing props or cloning flat data
+
+```js
+const arr = [1, 2, 3];
+const copy = [...arr];
+```
+*Quick and memory-efficient*
+*But nested objects/arrays still point to same memory!*
+
+What is Deep Clone (Deep Copy)?
+
+A deep clone creates a complete copy of an object including all nested objects or arrays, meaning there's no reference sharing.
+
+Example of Deep Clone:
+
+```js
+const original = {
+  name: "Amber",
+  address: {
+    city: "Delhi",
+  },
+};
+
+const deepClone = JSON.parse(JSON.stringify(original));
+
+deepClone.address.city = "Mumbai";
+
+console.log(original.address.city); // ✅ Output: "Delhi"
+```
+*The nested address `object` is fully cloned, so changing it in the clone doesn’t affect the original.*
+
+Limitation of JSON.parse(JSON.stringify())
+
+-  clone functions
+
+- Cannot clone special objects like Date, Map, Set, undefined, or circular references
+
+
+Use Cases of Deep Copy
+
+When to Use Deep Copy:
+
+- A deep copy is needed when:
+
+- Your object has nested structures
+
+- You want to fully detach from the original
+
+You’re about to mutate deep data and want to preserve immutability
+
+Use Case Examples:
+
+1. Complex state update in Redux or React
+
+```js
+const state = {
+  user: {
+    name: "Amber",
+    address: { city: "Delhi", pin: 123456 }
+  }
+};
+
+// deep copy to safely mutate
+const newState = JSON.parse(JSON.stringify(state));
+newState.user.address.city = "Mumbai";
+```
+
+Real-World Tip (React):
+
+- Always use shallow copy (`...obj`) for simple state updates.
+
+- Use deep copy only when truly needed, because it’s heavier on performance.
+
+Summary:
+
+| Type            | Top-Level  | Nested Objects   | Functions/Date/Map Support  |
+| --------------- | ---------  | --------------   | --------------------------  |
+| Shallow Copy    | ✅         | ❌ (reference)  | ✅                          |
+| `JSON` Clone    | ✅         | ✅              | ❌                          |
+| Recursive Clone | ✅         | ✅              | ✅ (with manual handling)   |
+
+
+Example:
+
+| Operation                      | Memory Behavior                     |
+| ------------------------------ | ----------------------------------  |
+| `const obj2 = obj1`            | ✅ Reference copy (no clone at all) |
+| `const obj2 = {...obj1}`       | ✅ Shallow clone                    |
+| `const obj2 = deepClone(obj1)` | ✅ Deep clone                       |
+
+
+
+
+
