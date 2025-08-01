@@ -14,3 +14,14 @@ export function customMap(array, callback) {
  with the current element, its index, and the entire array.
 
  */
+
+// customFilter.js
+export function customFilter(array, callback) {
+  const result = [];
+  for (let i = 0; i < array.length; i++) {
+    if (callback(array[i], i, array)) {
+      result.push(array[i]); 
+    }
+  }
+  return result;
+}

@@ -1165,5 +1165,5 @@ Example:
 
 
 
-
+<!-- why do we use callback? what is the purpose of callback in js -->
 

@@ -1,4 +1,4 @@
-Fundamental Concept: Primitive vs Reference Types
+**Fundamental Concept: Primitive vs Reference Types**
 
 ✅ 1. Primitive Types (copied by value)
 
@@ -82,4 +82,74 @@ const copy = JSON.parse(JSON.stringify(original)); // or use deepClone()
 | Reference | `let b = obj;`            | Reference is copied (same memory) |
 | Deep Copy | `let b = deepClone(obj);` | Entire new object created         |
 
+**Why do we even need callbacks in javascript?**
+
+You use callbacks when you want to delay the execution of a function until a certain condition is met, something finishes, or you want to plug in custom behavior.
+
+Why can’t we just call the function directly?
+
+If you just call a function directly, it runs immediately, synchronously.
+But in many real-world situations — you don’t want or can’t do that.
+
+Real Use Cases of Callbacks
+
+1. Asynchronous Operations (like fetching data)
+
+```js
+function fetchData(callback) {
+  setTimeout(() => {
+    console.log("Fetched data!");
+    callback(); // run only after data is fetched
+  }, 2000);
+}
+
+function processData() {
+  console.log("Processing data...");
+}
+
+fetchData(processData); // pass the logic to run after fetch
+```
+*If you just called `processData()` directly, it would run before data is fetched. That’s useless.*
+
+Custom Behavior in Reusable Functions
+
+Imagine building a calculate() function that can do any math:
+
+```js
+function calculate(a, b, operation) {
+  return operation(a, b);
+}
+
+const result = calculate(5, 3, function (x, y) {
+  return x * y;
+});
+
+console.log(result); // 15
+```
+*You pass the logic as a callback, making calculate() more flexible.*
+
+3. DOM Events / User Interaction
+
+```js
+button.addEventListener("click", () => {
+  console.log("Button clicked!");
+});
+```
+*You can’t "just call" the function here, because it should run only when the user clicks. That’s what the callback does — it waits and runs later.*
+
+4. Built-in Methods like `map`, `filter`, `forEach`
+
+```js
+[1, 2, 3].map((n) => n * 2); // callback used to transform each item
+```
+*You pass the logic of transformation as a callback — not hardcoded into the method.*
+
+Summary: When Do We Really Need Callbacks?
+
+| Situation            | Why Callbacks Are Needed                          |
+| -------------------- | ------------------------------------------------- |
+| Asynchronous tasks   | You can’t "just call" because the task takes time |
+| Customizable logic   | You want to plug in different behaviors           |
+| Event handling       | You don’t know **when** the event happens         |
+| Array transformation | You want to apply a function to every element     |
 
