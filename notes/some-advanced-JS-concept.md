@@ -1,4 +1,4 @@
-What is Currying?
+## 1. What is Currying?
 
 Currying is a technique where a function with multiple arguments is transformed into a series of functions, each taking one argument at a time.
 
