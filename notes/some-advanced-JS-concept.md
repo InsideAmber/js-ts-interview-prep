@@ -144,3 +144,96 @@ Summary:
 | **Where**    | Useful in higher-order functions, partial application, React handlers, functional libs |
 
 
+## 2. What is a Prototype?
+
+Every JavaScript object has a hidden internal property called [[Prototype]], which can be accessed via:
+
+```js
+Object.getPrototypeOf(obj); // OR obj.__proto__
+```
+*This prototype is a reference to another object, and JavaScript uses it for property lookup if a property doesn't exist on the object itself.*
+
+Example:
+
+```js
+const person = {
+  greet() {
+    return "Hello!";
+  },
+};
+
+const student = {
+  study() {
+    return "Studying...";
+  },
+};
+
+// Set person as the prototype of student
+Object.setPrototypeOf(student, person);
+
+console.log(student.study()); // Output: "Studying..." (own method)
+console.log(student.greet()); // Output: "Hello!" (inherited from prototype)
+```
+*Here, student inherits greet from person via the prototype chain.*
+
+What is Prototypal Inheritance?
+
+It’s a feature in JavaScript where one object inherits properties and methods from another object through its prototype chain.
+
+How JavaScript Uses It Internally:
+
+Constructor Functions Example:
+
+```js
+function Animal(name) {
+  this.name = name;
+}
+
+Animal.prototype.speak = function () {
+  return `${this.name} makes a noise`;
+};
+
+const dog = new Animal("Bruno");
+
+console.log(dog.name);        // Bruno (own property)
+console.log(dog.speak());     // Bruno makes a noise (inherited from prototype)
+```
+Here, dog gets access to `speak()` through its prototype:
+`dog.__proto__ === Animal.prototype`
+
+How Prototype Chain Works:
+
+When you call `dog.speak()`:
+
+- JS looks for speak in dog → not found.
+
+- Looks in `dog.__proto__` → found in Animal.prototype.
+
+- Executes the function.
+
+Behind the scenes:
+
+```js
+// dog → Animal.prototype → Object.prototype → null
+console.log(dog.__proto__ === Animal.prototype);       // true
+console.log(Animal.prototype.__proto__ === Object.prototype); // true
+```
+
+Benefits of Prototypes:
+
+| Benefit                      | Description                                            |
+| ---------------------------- | ------------------------------------------------------ |
+| **Memory Efficient**         | Shared methods via prototype rather than per instance. |
+| **Dynamic Extension**        | You can add new behavior anytime using `Prototype`.    |
+| **Foundation for OOP in JS** | Enables inheritance and object composition.            |
+
+
+When Should You Use It?
+
+- When creating many instances that share common behavior.
+
+- When working with constructor functions or class-based OOP in JavaScript.
+
+- When needing shared methods or functionality to avoid duplication.
+
+<!-- performance hits cause of prototypes and prototypal inheritance -->
