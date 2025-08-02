@@ -236,4 +236,179 @@ When Should You Use It?
 
 - When needing shared methods or functionality to avoid duplication.
 
-<!-- performance hits cause of prototypes and prototypal inheritance -->
+<details>
+<summary><h3>Is Prototypal Inheritance Expensive in Terms of Performance?</h3></summary>
+
+Short Answer:
+
+No, it’s not inherently expensive.
+Modern JavaScript engines (like V8, SpiderMonkey, etc.) optimize prototype chain lookups very efficiently using hidden classes, inline caching, and method lookup optimizations.
+
+But... When Does It Affect Performance?
+Customizing or dynamically modifying the prototype can degrade performance in certain cases:
+
+🔻 1. Frequent Modifications After Instantiation:
+
+```js
+function Animal(name) {
+  this.name = name;
+}
+
+const dog = new Animal("Bruno");
+
+// BAD: Changing prototype after creating instances
+Animal.prototype.speak = function () {
+  return this.name + " barks";
+};
+```
+*Why it’s bad: Engines may de-optimize objects when their shape (internal structure) changes post-creation.*
+
+🔻 2. Extending Object.prototype or Native Prototypes:
+
+```js
+Object.prototype.sayHello = function () {
+  return "Hi!";
+};
+```
+🚫 Avoid this!
+*Extending base objects like Object.prototype, Array.prototype, etc., affects all objects globally and can cause bugs, conflicts, and performance hits.*
+
+🔻 3. Very Long Prototype Chains:
+
+```js
+const obj1 = {};
+const obj2 = Object.create(obj1);
+const obj3 = Object.create(obj2);
+const obj4 = Object.create(obj3);
+// and so on...
+```
+*🚫 Deep chains can slow down property lookup slightly, though most real-world chains are shallow and optimized.*
+
+🔻 4. Dynamic Property Access vs. Static:
+
+```js
+obj[dynamicKey] vs obj.staticKey
+```
+*Using computed keys can be slightly slower because the engine can’t optimize lookup paths as effectively*
+
+✅ Best Practices to Avoid Performance Issues:
+
+| Do ✅                                        | Don't ❌                                           |
+| -------------------------------------------- | --------------------------------------------------- |
+| Set prototypes **before** creating instances | Modify prototypes **after** instance creation       |
+| Use `class` syntax (cleaner, optimized)      | Extend native prototypes (`Object.prototype`, etc.) |
+| Keep prototype chains **shallow**            | Create unnecessarily deep prototype chains          |
+
+Real World Impact?
+
+For 99.9% of frontend or backend apps:
+
+- Prototype usage and inheritance is not a bottleneck.
+
+- It's highly optimized by JS engines.
+
+But if you’re writing performance-critical libraries, game engines, or doing millions of object operations per second, follow best practices closely.
+
+**Why extending native prototypes like `Object.prototype` or `Array.prototype` can hurt performance, both technically and practically.**
+
+What Happens When You Modify Native Prototypes?
+
+Example – Extending Object.prototype:
+
+```js
+Object.prototype.sayHello = function () {
+  return "Hi!";
+};
+
+const user = { name: "Amber" };
+console.log(user.sayHello()); // "Hi!"
+```
+*This seems harmless — but it affects every object in your entire app, even objects from libraries or JSON responses.*
+
+Why Is It Bad for Performance and Reliability?
+
+1. All Objects Inherit It — Including Unrelated Ones
+
+```js
+for (let key in user) {
+  console.log(key); // You’ll get "sayHello" too!
+}
+```
+- Impacts for...in loops, `Object.keys()`, `JSON.stringify()`, etc.
+
+- Libraries expecting "clean" objects may break or behave unexpectedly.
+
+2. De-Optimization in JavaScript Engines
+
+Modern engines (like V8 in Chrome) create hidden classes (internal maps of properties) to optimize performance.
+
+When you modify the prototype after objects are created:
+
+- It invalidates those optimizations.
+
+- The engine has to fall back to slower dynamic lookup.
+
+Example:
+
+```js
+const obj = {};
+// Engine optimizes access for obj
+
+Object.prototype.extra = 123;
+// Now engine has to recheck proto chain → slow
+```
+
+3. Breaks Compatibility with Third-party Code
+
+Imagine a third-party library does:
+
+```js
+const config = {};
+if (config.debug) { /* do something */ }
+```
+*If you added Object.prototype.debug = true, it might crash or behave wrongly.*
+
+4. Harder to Debug, Maintain, and Predict
+
+You can’t tell by looking at `{}` whether it has extra methods or properties.
+
+- Name collisions are possible.
+
+- It can shadow built-in behavior.
+
+`Array.prototype` Example — Pitfall
+
+```js
+Array.prototype.removeLast = function () {
+  this.pop();
+};
+
+const arr = [1, 2, 3];
+for (let i of arr) {
+  console.log(i); // Works normally
+}
+
+// But now every array has this method:
+[10, 20].removeLast(); // Modifies the array unexpectedly
+```
+*And if a library does `for (let i in array)` (which is bad, but still used), `removeLast` will appear in the loop.*
+
+Safe Alternatives:
+
+| Problematic                       | Better Practice                         |
+| --------------------------------- | --------------------------------------- |
+| `Object.prototype.myMethod = ...` | Create utility function or class        |
+| `Array.prototype.remove = ...`    | Use wrapper functions (`utils.js`)      |
+| Add global behavior               | Use custom classes or factory functions |
+
+Summary: Why It Hurts
+
+| 🔍 Aspect     | ⚠️ Issue                                              |
+| ------------- | ------------------------------------------------------ |
+| Memory usage  | Increases due to shared polluted prototypes            |
+| Optimization  | De-optimizes hidden class optimizations in engines     |
+| Compatibility | Breaks third-party code & causes bugs                  |
+| Performance   | Slower property lookups due to deeper prototype checks |
+
+
+</details>
