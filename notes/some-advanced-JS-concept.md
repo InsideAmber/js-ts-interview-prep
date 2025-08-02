@@ -237,8 +237,8 @@ When Should You Use It?
 - When needing shared methods or functionality to avoid duplication.
 
 <details>
-<summary><h3>Is Prototypal Inheritance Expensive in Terms of Performance?</h3></summary>
-
+<summary>Is Prototypal Inheritance Expensive in Terms of Performance?</summary>
+  
 Short Answer:
 
 No, it’s not inherently expensive.
