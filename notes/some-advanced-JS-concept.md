@@ -238,6 +238,7 @@ When Should You Use It?
 
 <details>
 <summary>Is Prototypal Inheritance Expensive in Terms of Performance?</summary>
+
   
 Short Answer:
 
@@ -271,6 +272,7 @@ Object.prototype.sayHello = function () {
 };
 ```
 🚫 Avoid this!
+
 *Extending base objects like Object.prototype, Array.prototype, etc., affects all objects globally and can cause bugs, conflicts, and performance hits.*
 
 🔻 3. Very Long Prototype Chains:
