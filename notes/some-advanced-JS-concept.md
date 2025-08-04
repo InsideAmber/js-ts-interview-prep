@@ -427,3 +427,106 @@ Summary: Why It Hurts
 | Inheritance Control     | More explicit & flexible                   | Less flexible without using `Object.create()` under the hood |
 | Type of object          | Plain object                               | Instance of a constructor                                    |
 
+1. Using `Object.create()` – Manual Prototype Inheritance:
+
+```js
+const personPrototype = {
+  greet() {
+    console.log(`Hi, my name is ${this.name}`);
+  },
+};
+
+const amber = Object.create(personPrototype); // sets prototype manually
+amber.name = "Amber";
+
+amber.greet(); // Hi, my name is Amber
+```
+
+What’s happening?
+
+- amber's prototype is `personPrototype`.
+
+- `Object.create()` does not call any constructor. It just creates a new object and sets its prototype.
+
+2. Using Constructor Function – Class-like Instantiation
+
+```js
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.greet = function () {
+  console.log(`Hi, I'm ${this.name}`);
+};
+
+const amber = new Person("Amber");
+amber.greet(); // Hi, I'm Amber
+```
+
+What’s happening?
+
+- `new` does a few things:
+
+   - Creates an empty object.
+
+   - Sets the prototype of the object to `Person.prototype`.
+
+   - Calls the Person function with `this` bound to the `new `object.
+
+- Used like a class `constructor`.
+
+Key Differences
+
+1. Control over the prototype
+
+```js
+const obj = Object.create(null); // no prototype
+```
+- You can create objects without any prototype — useful for dictionaries.
+
+Constructor functions always use the function’s `.prototype`.
+
+2. Inheritance Customization
+
+```js
+function Animal(name) {
+  this.name = name;
+}
+
+function Dog(name) {
+  Animal.call(this, name); // Inherit properties
+}
+
+Dog.prototype = Object.create(Animal.prototype); // Inherit methods
+Dog.prototype.bark = function () {
+  console.log("Woof!");
+};
+```
+
+- Here, we use `Object.create()` to set up inheritance for `Dog` from `Animal`.
+
+Prototype Chain Differences:
+
+```js
+// Constructor Function
+const a = new Person("Ali");
+console.log(a.__proto__ === Person.prototype); // true
+
+// Object.create
+const b = Object.create(personPrototype);
+console.log(b.__proto__ === personPrototype); // true
+```
+
+So both give you prototype inheritance — but one is manual (`Object.create()`), the other is automatic (`new` keyword).
+
+When to Use What?
+
+| Use Case                               | Recommended Approach   |
+| -------------------------------------- | ---------------------- |
+| Manual prototype manipulation          | `Object.create()`      |
+| Classical-style instantiation          | Constructor function   |
+| Inheriting without calling constructor | `Object.create()`      |
+| Simple object cloning                  | `Object.create(proto)` |
+| When using ES6+ classes                | Prefer `class` syntax  |
+
+
