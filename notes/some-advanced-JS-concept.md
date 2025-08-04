@@ -421,9 +421,9 @@ Summary: Why It Hurts
 
 | Feature                 | `Object.create()`                          | Constructor Function                                         |
 | ----------------------  | -----------------------------------------  | ------------------------------------------------------------ |
-| ✅ Purpose             | Create a new object with a given prototype | Create objects using a constructor                           |
-| 🔗 Prototype behavior  | Sets the prototype manually                | Sets prototype via `.prototype` property                     |
-| 🧱 Instantiation Style | `Object.create(proto)`                     | `new Constructor()`                                          |
-| 🧠 Inheritance Control | More explicit & flexible                   | Less flexible without using `Object.create()` under the hood |
-| 🧪 Type of object      | Plain object                               | Instance of a constructor                                    |
+| Purpose                 | Create a new object with a given prototype | Create objects using a constructor                           |
+| Prototype behavior      | Sets the prototype manually                | Sets prototype via `.prototype` property                     |
+| Instantiation Style     | `Object.create(proto)`                     | `new Constructor()`                                          |
+| Inheritance Control     | More explicit & flexible                   | Less flexible without using `Object.create()` under the hood |
+| Type of object          | Plain object                               | Instance of a constructor                                    |
 
