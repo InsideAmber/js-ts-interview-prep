@@ -237,8 +237,9 @@ When Should You Use It?
 - When needing shared methods or functionality to avoid duplication.
 
 <details>
-<summary><h3>Is Prototypal Inheritance Expensive in Terms of Performance?</h3></summary>
+<summary>Is Prototypal Inheritance Expensive in Terms of Performance?</summary>
 
+  
 Short Answer:
 
 No, it’s not inherently expensive.
@@ -271,6 +272,7 @@ Object.prototype.sayHello = function () {
 };
 ```
 🚫 Avoid this!
+
 *Extending base objects like Object.prototype, Array.prototype, etc., affects all objects globally and can cause bugs, conflicts, and performance hits.*
 
 🔻 3. Very Long Prototype Chains:
