@@ -412,3 +412,7 @@ Summary: Why It Hurts
 
 
 </details>
+
+## 3. Difference between `Object.create()` and `constructor` functions in JavaScript
+
+Object.create() vs Constructor Function:
