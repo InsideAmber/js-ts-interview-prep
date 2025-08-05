@@ -529,4 +529,161 @@ When to Use What?
 | Simple object cloning                  | `Object.create(proto)` |
 | When using ES6+ classes                | Prefer `class` syntax  |
 
+*`Object.create()` creates a new object and manually sets its prototype, while a constructor function creates an object and automatically sets its prototype to the constructor’s `.prototype` via the `new` keyword.*
+
+## 4. What are higher-order functions?
+
+**What are Higher-Order Functions in JavaScript?**
+
+A higher-order function is a function that either:
+
+- Takes another function as an argument, OR
+
+- Returns another function as a result.
+
+**In JavaScript, functions are first-class citizens, meaning**:
+
+- You can assign functions to variables.
+
+- You can pass functions as arguments.
+
+- You can return functions from other functions.
+
+**Why use Higher-Order Functions?**
+
+- Abstraction: You can abstract common patterns (e.g., looping, filtering).
+
+- Reusability: Write functions that are flexible and configurable.
+
+- Cleaner code: Reduce duplication and improve readability.
+
+Simple Example: Taking a function as an argument
+
+```js
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+function processUserInput(callback) {
+  const name = "Amber";
+  console.log(callback(name)); // Hello, Amber!
+}
+
+processUserInput(greet);
+```
+
+*Here, `processUserInput` is a higher-order function because it takes another function greet as an argument.*
+Example: Returning a function:
+
+```js
+function multiplier(x) {
+  return function(y) {
+    return x * y;
+  };
+}
+
+const double = multiplier(2);
+console.log(double(5)); // 10
+```
+*`multiplier` is a higher-order function because it returns another function.*
+
+Real-world examples in JavaScript
+
+1. `Array.map()` – Takes a function as an argument
+
+```js
+const numbers = [1, 2, 3, 4];
+const squared = numbers.map(num => num * num);
+console.log(squared); // [1, 4, 9, 16]
+```
+
+2. `setTimeout()` – Takes a function to run later
+
+```js
+setTimeout(() => {
+  console.log("Delayed log after 1 second");
+}, 1000);
+```
+
+3. Event Listener – Takes a callback
+
+```js
+document.addEventListener('click', () => {
+  console.log('Document clicked');
+});
+```
+
+Summary:
+
+| Concept                   | Example                      | Why it’s Higher-Order?          |
+| ------------------------- | ---------------------------- | ------------------------------- |
+| Takes a function as input | `map(fn)` / `setTimeout(fn)` | Accepts function as an argument |
+| Returns a function        | `multiplier(x)(y)`           | Returns a new function          |
+
+
+## 5. What are the different ways to deep freeze an object?
+
+In JavaScript, freezing an object means preventing new properties from being added, existing properties from being removed or modified. However, `Object.freeze()` only shallow freezes the object — nested objects can still be modified.
+
+To deep freeze an object, you need to recursively freeze all nested objects.
+
+Recursive `deepFreeze()` function using `Object.freeze()`
+
+```js
+function deepFreeze(obj) {
+  // Retrieve the property names of the object
+  const propNames = Object.getOwnPropertyNames(obj);
+
+  // Freeze properties before freezing self
+  for (let name of propNames) {
+    const value = obj[name];
+
+    // If value is an object, recursively freeze it
+    if (value && typeof value === 'object') {
+      deepFreeze(value);
+    }
+  }
+
+  // Finally, freeze the root object
+  return Object.freeze(obj);
+}
+```
+
+Example:
+
+```js
+const person = {
+  name: "Amber",
+  address: {
+    city: "Delhi",
+    pin: 110001
+  }
+};
+
+deepFreeze(person);
+
+// Attempt to mutate
+person.name = "Khan";               // ❌ Fails silently (or throws in strict mode)
+person.address.city = "Mumbai";     // ❌ Still fails because inner object is also frozen
+
+console.log(person);
+// Output: { name: 'Amber', address: { city: 'Delhi', pin: 110001 } }
+```
+Difference between `Object.freeze()` vs `deepFreeze()`:
+
+| Feature                  | `Object.freeze()`        | `deepFreeze()` (custom)       |
+| ------------------------ | ------------------------ | ----------------------------- |
+| Scope                    | Shallow (top-level only) | Deep (recursive or iterative) |
+| Nested object modifiable |  Yes                     | No                            |
+| Built-in                 |  Yes                     | Needs manual implementation   |
+
+Summary:
+
+| Method                     | Use When                                                |
+| -------------------------- | ------------------------------------------------------- |
+| `Object.freeze()`          | You want to freeze top-level properties only            |
+| `deepFreeze()` (recursive) | You want complete immutability, safe but recursive      |
+| `deepFreezeIterative()`    | Deep freeze without stack overflow (many nested levels) |
+
+
 
