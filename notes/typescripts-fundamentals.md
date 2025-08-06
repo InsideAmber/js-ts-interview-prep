@@ -140,11 +140,11 @@ const user: User = {
   age: 25,
 };
 ```
-*Best for object shapes, class contracts, and extending other interfaces.*
+*Best for `object` shapes, `class` contracts, and extending other `interfaces`.*
 
 What is a Type Alias?
 
-A type can do everything an interface can (almost) — plus more.
+A `type` can do everything an `interface` can (almost) — plus more.
 
 ```ts
 type User = {
@@ -152,7 +152,7 @@ type User = {
   age: number;
 };
 ```
-*Best for primitive unions, tuples, functions, and combining types.*
+*Best for primitive `unions`, `tuples`, `functions`, and combining types.*
 
 ```ts
 type ID = string | number;
@@ -198,27 +198,27 @@ type Dog = { name: string }; // ❌ Error: Duplicate identifier 'Dog'
 
 When to Use What
 
-Use interface when:
+Use `interface` when:
 
-- You're describing object shapes
+- You're describing `object` shapes
 
 - You're working with classes (implements)
 
 - You need declaration merging
 
-- You want to extend multiple objects cleanly
+- You want to extend multiple `objects` cleanly
 
 Use type when:
 
-- You need union or intersection
+- You need `union` or `intersection`
 
 ```ts
 type Status = "success" | "error";
 ```
 
-- You’re defining functions, tuples, or primitives
+- You’re defining `functions`, `tuples`, or `primitives`
 
-- You need to combine different shapes using & and |
+- You need to combine different shapes using `&` and `|`
 
 ```ts
 type Admin = User & { role: "admin" };
@@ -227,3 +227,196 @@ type Admin = User & { role: "admin" };
 </details>
 
 
+<details>
+
+<summary>What are generics in TypeScript?</summary>
+
+Generics are a way to create reusable components that work with any data type, while still keeping type safety.
+
+Think of it like a placeholder for a type:
+
+```ts
+function identity<T>(value: T): T {
+  return value;
+}
+```
+
+Here, `T` is a generic type variable — a placeholder for whatever type gets passed in.
+
+Why Use Generics?
+
+- Reusability: One function/type can work with many types.
+
+- Type Safety: The compiler ensures types are correct.
+
+- Flexibility: Avoid duplicating code for each type (string, number, etc).
+
+Without Generics (Not Type-Safe)
+
+```ts
+function identity(value: any): any {
+  return value;
+}
+
+const result = identity("Amber"); // ❌ result has type "any"
+```
+*We lose type information — not ideal!*
+
+With Generics (Type-Safe)
+
+```ts
+function identity<T>(value: T): T {
+  return value;
+}
+
+const result = identity<string>("Amber"); // result: string
+```
+*Now the type is inferred and preserved.*
+
+Real Reusable Generic Function Example
+
+1. Generic Function to Wrap a Value
+
+```ts
+function wrapInArray<T>(value: T): T[] {
+  return [value];
+}
+
+const numberArray = wrapInArray(5); // number[]
+const stringArray = wrapInArray("hello"); // string[]
+```
+2. Generic Function to Filter Items by Type
+
+```ts
+function filterItems<T>(items: T[], predicate: (item: T) => boolean): T[] {
+  return items.filter(predicate);
+}
+
+const numbers = [1, 2, 3, 4, 5];
+const even = filterItems(numbers, num => num % 2 === 0); // [2, 4]
+```
+
+3. Generic Function to Merge Two Objects
+
+```ts
+function merge<T, U>(obj1: T, obj2: U): T & U {
+  return { ...obj1, ...obj2 };
+}
+
+const merged = merge({ name: "Amber" }, { age: 25 });
+// type: { name: string; age: number }
+```
+
+Generics in Arrow Function Form:
+
+```ts
+const identity = <T>(value: T): T => value;
+```
+</details>
+
+<details>
+<summary>How does TypeScript infer types automatically?</summary>
+
+ChatGPT said:
+Great question!
+
+TypeScript is known for its powerful type inference system, which allows you to write clean, minimal code without manually annotating types everywhere — yet still enjoy full type safety.
+
+**What is Type Inference?**
+
+TypeScript automatically infers (guesses) the type of a variable, function return, parameter, or expression based on how it’s used — without requiring explicit type annotations.
+
+How TypeScript Infers Types — Common Scenarios:
+
+1. Variable Declarations
+
+```ts
+let name = "Amber"; // inferred as string
+let count = 42;     // inferred as number
+```
+
+TypeScript assigns `string` to name and `number` to count automatically.
+
+2. Function Return Types
+
+```ts
+function add(a: number, b: number) {
+  return a + b;
+}
+```
+Even without an explicit return type, TS infers `add` returns a `number`.
+
+```ts
+// Inferred: (a: number, b: number) => number
+```
+
+3. Arrays and Objects
+
+```ts
+let fruits = ["apple", "banana", "cherry"];
+// Type: string[]
+
+let user = {
+  name: "Amber",
+  age: 25,
+};
+// Type: { name: string; age: number }
+```
+4. Destructuring
+
+```ts
+const person = { name: "Amber", age: 25 };
+const { name, age } = person;
+// name: string, age: number
+```
+
+5. Function Parameters from Context:
+
+```ts
+const users = ["Amber", "Khan"];
+
+users.forEach((user) => {
+  // user: string (inferred from array)
+});
+```
+6. Generics and Type Propagation
+
+```ts
+function wrapInArray<T>(value: T): T[] {
+  return [value];
+}
+
+const result = wrapInArray("hello");
+// inferred T = string → result: string[]
+```
+
+7. Best Common Type
+
+TypeScript finds the “best common type” when dealing with multiple elements:
+
+```ts
+let mixed = [1, 2, "three"];
+// inferred type: (string | number)[]
+```
+
+When Inference Might Not Work:
+
+```ts
+let data; // inferred as `any` — no type information
+data = 123;
+data = "hello";
+```
+
+To avoid `any`, always initialize variables or add explicit types.
+
+Why It Matters
+
+- 🧹 Less boilerplate: You don’t need to type everything.
+
+- 🧠 Smarter editor: Auto-complete, refactor suggestions, etc.
+
+- 🛡️ Type-safe without manual typing.
+
+- 🐞 Fewer bugs: TypeScript catches mismatches early.
+
+</details>
