@@ -317,9 +317,6 @@ const identity = <T>(value: T): T => value;
 <details>
 <summary>How does TypeScript infer types automatically?</summary>
 
-ChatGPT said:
-Great question!
-
 TypeScript is known for its powerful type inference system, which allows you to write clean, minimal code without manually annotating types everywhere — yet still enjoy full type safety.
 
 **What is Type Inference?**
