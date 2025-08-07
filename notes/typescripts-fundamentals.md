@@ -82,7 +82,7 @@ Also adds:
 
 - Enums
 
-- Access modifiers (private, public)
+- Access modifiers (`private`, `public`)
 
 - Generics
 
@@ -249,7 +249,7 @@ Why Use Generics?
 
 - Type Safety: The compiler ensures types are correct.
 
-- Flexibility: Avoid duplicating code for each type (string, number, etc).
+- Flexibility: Avoid duplicating code for each type (`string`, `number`, etc).
 
 Without Generics (Not Type-Safe)
 
