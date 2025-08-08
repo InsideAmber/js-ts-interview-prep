@@ -417,3 +417,193 @@ Why It Matters
 - 🐞 Fewer bugs: TypeScript catches mismatches early.
 
 </details>
+
+## 5. What is the unknown type? How is it different from any?
+
+In TypeScript, both any and unknown are top types — meaning they can hold any value. However, their behavior is very different in terms of type safety and intent.
+
+`any` vs `unknown` — Summary Table:
+
+| Feature               | `any`                               | `unknown`                                          |
+| --------------------- | ----------------------------------- | -------------------------------------------------- |
+| Accepts any value     | Yes                                 | Yes                                                |
+| Allows any operations | Yes (unsafe)                        | No (must first narrow or assert)                   |
+| Type safety           | Completely bypasses type checking   | Enforces type checks                               |
+| Use case              | Legacy, escape hatch                | Safer alternative to `any` for unknown values      |
+| Type assignability    | Can be assigned to anything         | Cannot be assigned to more specific types directly |
+| Recommended?          | Use only if you must                | Safer for dynamic or external input                |
+
+`any`: Disables Type Checking:
+
+```ts
+let value: any;
+
+value = 10;
+value = "hello";
+
+value.toUpperCase();  // ✅ No error at compile time
+value.notAFunction(); // ✅ No error (but may crash at runtime)
+```
+*`any` disables TypeScript’s safety — it’s like writing plain JavaScript.*
+
+`unknown`: Safe, But Strict:
+
+```ts
+let value: unknown;
+
+value = 10;
+value = "hello";
+
+value.toUpperCase();  // ❌ Error: Object is of type 'unknown'
+```
+*To safely use `unknown`, you must narrow or assert the type:*
+
+Narrowing using `typeof`:
+
+```ts
+if (typeof value === "string") {
+  console.log(value.toUpperCase()); // ✅ OK now
+}
+```
+Type assertion:
+
+```ts
+console.log((value as string).toUpperCase()); // ✅ OK
+```
+
+**When to Use unknown:**
+
+Use unknown when:
+
+- You're dealing with user input or external API responses.
+
+- You want to defer type checking until you know more.
+
+- You want a safer alternative to any.
+
+**When any Is Okay (but risky):**
+
+Use any only when:
+
+- You're migrating from JS and need a quick fix.
+
+- You want to silence TypeScript temporarily (not recommended).
+
+- You’re using a third-party library with no types and can't fix it yet.
+
+## 6. What are utility types like Partial, Pick, Omit, Record, Readonly?
+
+Great! Utility types in TypeScript are built-in helpers that allow you to transform existing types in flexible ways. They're super useful in real-world code to avoid duplication, make types optional, required, or readonly, and compose complex types cleanly.
+
+Here's a quick overview of the most used utility types:
+
+| Utility Type   | Purpose                                                     |
+| -------------- | ----------------------------------------------------------- |
+| `Partial<T>`   | Makes **all properties optional**                           |
+| `Required<T>`  | Makes **all properties required**                           |
+| `Readonly<T>`  | Makes **all properties readonly**                           |
+| `Pick<T, K>`   | Creates a type with **only selected keys**                  |
+| `Omit<T, K>`   | Creates a type with **selected keys removed**               |
+| `Record<K, T>` | Creates a type with **keys of type K and values of type T** |
+
+
+1. 🔹 Partial<T>
+
+Makes all properties in type T optional.
+
+```ts
+interface User {
+  name: string;
+  age: number;
+}
+
+const updateUser = (user: Partial<User>) => {
+  // all props are optional
+  if (user.name) console.log(user.name);
+};
+```
+*Useful when you only want to update part of an object.*
+
+2. 🔹 Required<T>
+
+Makes all properties in T required (even optional ones).
+
+```ts
+interface Settings {
+  darkMode?: boolean;
+  language?: string;
+}
+
+const saveSettings = (config: Required<Settings>) => {
+  // config.darkMode and config.language are guaranteed
+};
+```
+*Useful to enforce full object construction.*
+
+3. 🔹 Readonly<T>
+
+Makes all properties in T read-only (immutable).
+
+```ts
+interface User {
+  id: number;
+  name: string;
+}
+
+const user: Readonly<User> = {
+  id: 1,
+  name: "Amber",
+};
+
+user.name = "Ali"; // ❌ Error: Cannot assign to 'name' because it is a read-only property
+```
+*Great for immutability and avoiding accidental changes.*
+
+4. 🔹 Pick<T, K>
+
+Creates a type by picking specific keys from a type.
+
+```ts
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+type BasicInfo = Pick<User, "id" | "name">;
+
+const user: BasicInfo = {
+  id: 1,
+  name: "Amber",
+};
+```
+*Useful for extracting just what you need.*
+
+5. 🔹 Omit<T, K>
+
+Creates a type by removing certain keys.
+
+```ts
+type WithoutEmail = Omit<User, "email">;
+
+const user: WithoutEmail = {
+  id: 1,
+  name: "Amber",
+};
+```
+*Useful for hiding fields like passwords or internal fields.*
+
+6. 🔹 Record<K, T>
+
+Creates a type with keys K and values of type T.
+
+```ts
+type Role = "admin" | "user" | "guest";
+
+const permissions: Record<Role, string[]> = {
+  admin: ["read", "write", "delete"],
+  user: ["read", "write"],
+  guest: ["read"],
+};
+```
+*Useful for mapping keys to consistent value types.*
