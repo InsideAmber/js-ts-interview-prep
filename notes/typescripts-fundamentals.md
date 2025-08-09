@@ -607,3 +607,211 @@ const permissions: Record<Role, string[]> = {
 };
 ```
 *Useful for mapping keys to consistent value types.*
+
+## 7. Explain enum usage in TypeScript.
+
+What is an Enum?
+
+In TypeScript, an enum is a special type that defines a set of named constants.
+It’s often used when you have a fixed set of related values that you want to refer to by name instead of using raw numbers or strings.
+
+Think of it like giving human-readable names to values.
+
+Why use enums?
+
+- Improves readability → avoids “magic numbers” or random strings in your code.
+
+- Helps with type safety → prevents assigning invalid values.
+
+- Makes refactoring easier → if you change a value, you only update it in one place.
+
+Enum Types in TypeScript
+
+a) Numeric Enums (default)
+
+If you don’t assign values, numeric enums start from 0 by default.
+
+```ts
+enum Direction {
+  Up,     // 0
+  Down,   // 1
+  Left,   // 2
+  Right,  // 3
+}
+
+let move: Direction = Direction.Up;
+console.log(move); // 0
+```
+You can also start from a custom number:
+
+```ts
+enum Status {
+  Success = 200,
+  NotFound = 404,
+  ServerError = 500,
+}
+```
+b) String Enums
+
+Every member gets a string value (no auto-increment here).
+
+```ts
+enum Role {
+  Admin = "ADMIN",
+  User = "USER",
+  Guest = "GUEST",
+}
+
+function checkRole(role: Role) {
+  if (role === Role.Admin) {
+    console.log("Welcome Admin!");
+  }
+}
+
+checkRole(Role.Admin); // ✅ "Welcome Admin!"
+```
+c) Heterogeneous Enums (mix numbers & strings — rarely used)
+
+```ts
+enum Mixed {
+  No = 0,
+  Yes = "YES",
+}
+```
+*Usually avoided for clarity.*
+
+Reverse Mapping (only for numeric enums)
+
+```ts
+enum Color {
+  Red = 1,
+  Green,
+  Blue,
+}
+
+console.log(Color.Red);   // 1
+console.log(Color[1]);    // "Red" (reverse lookup)
+```
+*Reverse mapping doesn’t work for string enums.*
+
+Const Enums (Performance optimization)
+
+const enum is removed at compile time, inlining the value directly.
+This means no extra object is created in JavaScript → smaller, faster code.
+
+```ts
+const enum Direction {
+  Up,
+  Down,
+}
+
+let move = Direction.Up; // compiled directly to `0` in JS
+```
+When to Use Enums
+
+✅ Good for:
+
+- Directions (North, South, East, West)
+
+- HTTP status codes
+
+- User roles (Admin, Editor, Viewer)
+
+- Fixed states in an app (loading, success, error)
+
+*Enums in TypeScript let you define a set of named constants for better readability and type safety. They can be numeric, string-based, or const enums for performance.*
+
+
+## 8. How do you use as const, and what does it do?
+
+Alright — as const in TypeScript is a little keyword with a big impact.
+Let’s break it down so you can explain it in interviews and use it correctly in code.
+
+1️⃣ What does as const do?
+
+It tells TypeScript to:
+
+- Make the value completely immutable (deeply readonly).
+
+- Infer the most specific literal type instead of a broader type.
+
+Without as const
+
+```ts
+let colors = ["red", "green", "blue"];
+// Type: string[]
+
+const direction = "north";
+// Type: string
+```
+Here:
+
+- `colors` is inferred as a general `string[]`.
+
+- `direction` is inferred as a general `string`.
+
+With `as const`
+
+```ts
+let colors = ["red", "green", "blue"] as const;
+// Type: readonly ["red", "green", "blue"]
+
+const direction = "north" as const;
+// Type: "north"
+```
+
+Now:
+
+- The array is readonly and keeps literal values `"red" | "green" | "blue"`.
+
+- `direction` is the literal type `"north"`, not just `string`.
+
+2️⃣ Why is this useful?
+
+a) Literal type inference
+
+If you’re defining fixed values and want to keep their exact values as types:
+
+```ts
+const ROLES = ["admin", "user", "guest"] as const;
+type Role = typeof ROLES[number];
+// "admin" | "user" | "guest"
+```
+
+b) Immutable configuration objects
+
+```ts
+const CONFIG = {
+  apiUrl: "https://api.example.com",
+  timeout: 5000,
+} as const;
+
+// CONFIG.apiUrl = "newUrl"; ❌ Error: Readonly
+```
+
+c) Safer comparisons
+
+```ts
+const DIRECTIONS = ["up", "down", "left", "right"] as const;
+
+function move(dir: typeof DIRECTIONS[number]) {
+  console.log(`Moving ${dir}`);
+}
+
+move("up");    // ✅
+move("forward"); // ❌ Type error
+```
+
+3️⃣ Key Takeaways
+
+- Locks in the exact values (no widening to string or number).
+
+- Makes properties deeply readonly.
+
+- Great for constants, configs, and union type generation.
+
+- Avoids accidental changes at runtime and gives TypeScript more safety.
+
+
+
+
