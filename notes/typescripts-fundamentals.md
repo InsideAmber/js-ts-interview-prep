@@ -813,5 +813,72 @@ move("forward"); // ❌ Type error
 - Avoids accidental changes at runtime and gives TypeScript more safety.
 
 
+## 9. What is never and when does it occur?
+
+1️⃣ What is `never`?
+
+- `never` is a special type that represents no possible value.
+
+- It means: “This code path should be impossible”.
+
+If something has the type `never`, it cannot be assigned any value — not even `null` or `undefined`.
+
+2️⃣ When does `never` occur?
+
+a) Functions that never return
+
+If a function throws an error or loops forever, its return type is `never` because it will never successfully finish.
+
+```ts
+function throwError(message: string): never {
+  throw new Error(message);
+}
+
+function infiniteLoop(): never {
+  while (true) {}
+}
+```
+b) Exhaustiveness checking
+
+In type narrowing with `switch` or `if` statements, `never` is used to ensure all cases are handled.
+
+```ts
+type Shape = { kind: "circle"; radius: number }
+           | { kind: "square"; side: number };
+
+function getArea(shape: Shape) {
+  switch (shape.kind) {
+    case "circle":
+      return Math.PI * shape.radius ** 2;
+    case "square":
+      return shape.side * shape.side;
+    default:
+      // Here shape is of type `never`
+      const _exhaustiveCheck: never = shape; // ❌ Error if a case is missing
+      return _exhaustiveCheck;
+  }
+}
+```
+This ensures that if you later add `{ kind: "triangle" }`,
+
+TypeScript will force you to update the `switch`.
+
+c) Impossible type intersections
+
+If you intersect types that can never be true together, the result is `never`.
+
+```ts
+type A = string & number; // never
+```
+
+3️⃣ Why is never useful?
+
+- Prevents unreachable code paths from being ignored.
+
+- Helps catch missing cases during type narrowing.
+
+- Improves type safety in exhaustive checks.
+
+
 
 
