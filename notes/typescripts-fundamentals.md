@@ -879,6 +879,75 @@ type A = string & number; // never
 
 - Improves type safety in exhaustive checks.
 
+## 10. How do you handle type narrowing and type guards?
+
+What is Type Narrowing?
+
+Type narrowing is when TypeScript reduces a union type into a more specific type based on runtime checks.
+
+For example:
+
+```ts
+function printLength(value: string | string[]) {
+  if (typeof value === "string") {
+    // Here: value is string
+    console.log(value.length);
+  } else {
+    // Here: value is string[]
+    console.log(value.length);
+  }
+}
+```
+*Initially value is `string | string[]`,*
+*but after `typeof value === "string"`,*
+*TS narrows it to just `string`.*
+
+2️⃣ What are Type Guards?
+
+Type guards are conditions (functions or expressions) that tell TypeScript “Hey, if we pass this check, the type is definitely X”.
+
+Built-in Type Guards
+
+`typeof` — for primitives
+
+```ts
+if (typeof value === "string") { /* narrowed to string */ }
+```
+
+`instanceof` — for classes/objects
+
+```ts
+if (date instanceof Date) { /* narrowed to Date */ }
+```
+`in` — checks if a property exists
+
+```ts
+if ("radius" in shape) { /* narrowed to circle type */ }
+```
+
+3️⃣ Handling with Exhaustiveness Checking
+
+Type narrowing pairs really well with never to ensure all cases are handled.
+
+```ts
+type Shape = 
+  | { kind: "circle"; radius: number }
+  | { kind: "square"; side: number };
+
+function getArea(shape: Shape) {
+  switch (shape.kind) {
+    case "circle":
+      return Math.PI * shape.radius ** 2;
+    case "square":
+      return shape.side * shape.side;
+    default:
+      const _exhaustive: never = shape; // Forces us to handle all types
+      return _exhaustive;
+  }
+}
+```
+
+*Type narrowing is when TypeScript refines a broader type to a more specific type based on runtime checks. Type guards are the way we trigger narrowing, using built-in checks like `typeof`, `instanceof`, `in`, or custom functions returning `value is Type`. Combined with exhaustive checks, they help make code safer and prevent missing cases.*
 
 
 
