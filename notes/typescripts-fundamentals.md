@@ -949,5 +949,41 @@ function getArea(shape: Shape) {
 
 *Type narrowing is when TypeScript refines a broader type to a more specific type based on runtime checks. Type guards are the way we trigger narrowing, using built-in checks like `typeof`, `instanceof`, `in`, or custom functions returning `value is Type`. Combined with exhaustive checks, they help make code safer and prevent missing cases.*
 
+## 11. Write a function `mergeObjects<T, U>(obj1: T, obj2: U): T & U` that merges two objects.
+
+```ts
+function mergeObjects<T, U>(obj1: T, obj2: U): T & U {
+  return { ...obj1, ...obj2 };
+}
+
+// Example usage:
+const objA = { name: "Amber", age: 25 };
+const objB = { isAdmin: true, country: "India" };
+
+const merged = mergeObjects(objA, objB);
+
+/*
+merged has type:
+{
+  name: string;
+  age: number;
+  isAdmin: boolean;
+  country: string;
+}
+*/
+
+console.log(merged);
+// Output: { name: 'Amber', age: 25, isAdmin: true, country: 'India' }
+```
+- `T` is the type of `obj1`.
+
+- `U` is the type of `obj2`.
+
+- The return type `T & U` means:
+
+  - The merged object will have all properties from `obj1` (T)
+
+  - and all properties from `obj2` (U).
+
 
 
