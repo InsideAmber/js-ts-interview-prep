@@ -431,3 +431,8 @@ Why?
 | `Promise.allSettled` | All finish (success/fail) | Never rejects          | Get every resultregardless |
 
 
+- JavaScript is single-threaded; synchronous code blocks the thread. Asynchronous code uses the event loop so long tasks don’t freeze the app.
+
+- `async/await` is syntax sugar over Promises; it makes asynchronous flows read like synchronous code without blocking the thread.
+
+- Use microtasks for immediate promise continuations and macrotasks for timers and I/O; microtasks run before the next macrotask.
