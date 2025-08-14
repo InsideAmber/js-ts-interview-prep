@@ -686,4 +686,146 @@ Summary:
 | `deepFreezeIterative()`    | Deep freeze without stack overflow (many nested levels) |
 
 
+## 6. What is web workers (& shared workers) and service workers
+
+JavaScript is single-threaded — meaning it runs one piece of code at a time on the main thread (the same thread that updates the UI).
+
+If you run a heavy task (big loop, image processing, encryption) on the main thread → UI freezes, clicks stop working, animations lag.
+
+Solution: Move heavy tasks to a background thread so the main thread stays smooth → This is where Workers come in.
+
+**Web Workers**
+
+- Runs in a separate background thread
+
+- Cannot directly access the DOM
+
+- Communicates with the main thread via message passing (`postMessage()` & `onmessage`)
+
+- Ideal for heavy computations, parsing large files, image processing, etc.
+
+Example:
+
+```js
+// worker.js
+self.onmessage = function(event) {
+  const num = event.data;
+  let result = num * 2;
+  self.postMessage(result);
+};
+```
+```js
+// main.js
+const worker = new Worker("worker.js");
+worker.postMessage(10); // send data to worker
+
+worker.onmessage = function(event) {
+  console.log("Result from worker:", event.data); // 20
+};
+```
+*Main thread remains free, UI stays responsive.*
+
+**Shared Workers**
+
+- Like Web Workers, but can be shared across multiple scripts, tabs, iframes from the same origin.
+
+- Useful for things like:
+
+   - Real-time chat connection shared between tabs
+
+   - Shared caching logic
+
+Session state between multiple open tabs
+
+Key difference:
+
+Web Worker → one worker per script instance.
+Shared Worker → single worker, multiple connections.
+
+Example:
+
+```js
+// sharedWorker.js
+self.onconnect = function(e) {
+  const port = e.ports[0];
+  port.onmessage = function(event) {
+    port.postMessage(`Hello from shared worker, you said: ${event.data}`);
+  };
+};
+```
+```js
+// main.js (in multiple tabs)
+const worker = new SharedWorker("sharedWorker.js");
+worker.port.start();
+worker.port.postMessage("Amber here!");
+worker.port.onmessage = function(e) {
+  console.log(e.data);
+};
+```
+**Service Workers**
+
+- Lives between the browser and the network (acts like a proxy)
+
+- Runs in the background even when the page is closed (if registered)
+
+- Used for:
+
+  - Offline caching (PWA)
+
+  - Push notifications
+
+  - Background sync
+
+Key properties:
+
+- Event-driven (`install`, `activate`, `fetch`)
+
+- Can intercept network requests and respond with cached data
+
+Example (basic offline caching):
+
+```js
+// service-worker.js
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open("v1").then(cache => {
+      return cache.addAll(["/index.html", "/style.css", "/script.js"]);
+    })
+  );
+});
+
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
+    })
+  );
+});
+```
+```js
+// main.js (register service worker)
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js");
+}
+```
+
+Quick Comparison Table
+
+| Feature              | Web Worker   | Shared Worker       | Service Worker              |
+| -------------------- | ----------   | ------------------  | --------------------------  |
+| Background thread    | ✅          | ✅                  | ✅                          |
+| DOM access           | ❌          | ❌                  | ❌                          |
+| Shared between tabs  | ❌          | ✅                  | ✅ (if scope matches)       |
+| Runs offline         | ❌          | ❌                  | ✅                          |
+| Network interception | ❌          | ❌                  | ✅                          |
+| Lifetime             | Page life    | Shared across tabs  | Independent (event-driven)  |
+
+When to use which?
+
+- Web Worker → heavy CPU work in one page
+
+- Shared Worker → share data between multiple open tabs
+
+- Service Worker → offline caching, push notifications, background sync
+
 
