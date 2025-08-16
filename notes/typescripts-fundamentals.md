@@ -471,21 +471,21 @@ Type assertion:
 console.log((value as string).toUpperCase()); // ✅ OK
 ```
 
-**When to Use unknown:**
+**When to Use `unknown`:**
 
-Use unknown when:
+Use `unknown` when:
 
 - You're dealing with user input or external API responses.
 
 - You want to defer type checking until you know more.
 
-- You want a safer alternative to any.
+- You want a safer alternative to `any`.
 
-**When any Is Okay (but risky):**
+**When `any` Is Okay (but risky):**
 
-Use any only when:
+Use `any` only when:
 
-- You're migrating from JS and need a quick fix.
+- You're migrating from `JS` and need a quick fix.
 
 - You want to silence TypeScript temporarily (not recommended).
 
@@ -522,11 +522,11 @@ const updateUser = (user: Partial<User>) => {
   if (user.name) console.log(user.name);
 };
 ```
-*Useful when you only want to update part of an object.*
+*Useful when you only want to update part of an `object`.*
 
 2. 🔹 Required<T>
 
-Makes all properties in T required (even optional ones).
+Makes all properties in `T` required (even optional ones).
 
 ```ts
 interface Settings {
@@ -538,11 +538,11 @@ const saveSettings = (config: Required<Settings>) => {
   // config.darkMode and config.language are guaranteed
 };
 ```
-*Useful to enforce full object construction.*
+*Useful to enforce full `object` construction.*
 
 3. 🔹 Readonly<T>
 
-Makes all properties in T read-only (immutable).
+Makes all properties in `T` read-only (immutable).
 
 ```ts
 interface User {
@@ -595,7 +595,7 @@ const user: WithoutEmail = {
 
 6. 🔹 Record<K, T>
 
-Creates a type with keys K and values of type T.
+Creates a type with keys `K` and values of type `T`.
 
 ```ts
 type Role = "admin" | "user" | "guest";
@@ -617,7 +617,7 @@ It’s often used when you have a fixed set of related values that you want to r
 
 Think of it like giving human-readable names to values.
 
-Why use enums?
+Why use `enums`?
 
 - Improves readability → avoids “magic numbers” or random strings in your code.
 
@@ -629,7 +629,7 @@ Enum Types in TypeScript
 
 a) Numeric Enums (default)
 
-If you don’t assign values, numeric enums start from 0 by default.
+If you don’t assign values, numeric `enums` start from 0 by default.
 
 ```ts
 enum Direction {
@@ -653,7 +653,7 @@ enum Status {
 ```
 b) String Enums
 
-Every member gets a string value (no auto-increment here).
+Every member gets a `string` value (no auto-increment here).
 
 ```ts
 enum Role {
@@ -692,7 +692,7 @@ enum Color {
 console.log(Color.Red);   // 1
 console.log(Color[1]);    // "Red" (reverse lookup)
 ```
-*Reverse mapping doesn’t work for string enums.*
+*Reverse mapping doesn’t work for `string` enums.*
 
 Const Enums (Performance optimization)
 
@@ -713,21 +713,21 @@ When to Use Enums
 
 - Directions (North, South, East, West)
 
-- HTTP status codes
+- `HTTP` status codes
 
 - User roles (Admin, Editor, Viewer)
 
-- Fixed states in an app (loading, success, error)
+- Fixed states in an app (`loading`, `success`, `error`)
 
 *Enums in TypeScript let you define a set of named constants for better readability and type safety. They can be numeric, string-based, or const enums for performance.*
 
 
-## 8. How do you use as const, and what does it do?
+## 8. How do you use `as const`, and what does it do?
 
-Alright — as const in TypeScript is a little keyword with a big impact.
+Alright — `as const` in TypeScript is a little keyword with a big impact.
 Let’s break it down so you can explain it in interviews and use it correctly in code.
 
-1️⃣ What does as const do?
+1️⃣ What does `as const` do?
 
 It tells TypeScript to:
 
@@ -735,7 +735,7 @@ It tells TypeScript to:
 
 - Infer the most specific literal type instead of a broader type.
 
-Without as const
+Without `as const`
 
 ```ts
 let colors = ["red", "green", "blue"];

@@ -93,3 +93,4 @@ How to avoid these:
 - Use integration tests with real API data.
 
 - Freeze configs with `as const` to avoid accidental mutations.
+
