@@ -828,4 +828,3 @@ When to use which?
 
 - Service Worker → offline caching, push notifications, background sync
 
-

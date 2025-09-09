@@ -1163,5 +1163,121 @@ Example:
 | `const obj2 = {...obj1}`       | ✅ Shallow clone                    |
 | `const obj2 = deepClone(obj1)` | ✅ Deep clone                       |
 
+## Let’s deeply understand how the event loop works and how it differs (or not) between browser and Node.js
 
+What is the Event Loop?
+
+The event loop is a mechanism that allows JavaScript — which is single-threaded — to handle asynchronous tasks like:
+
+- User interactions
+
+- Timers (`setTimeout`, `setInterval`)
+
+- HTTP requests (fetch, XMLHttpRequest)
+
+- File operations (in Node.js)
+
+It lets JavaScript not block while waiting for things like network responses or user input.
+
+How It Works — Step by Step
+
+1. JavaScript starts with an execution stack where functions are executed.
+
+2. When an asynchronous operation is encountered (e.g. `setTimeout`), it’s handed off to the browser APIs / Node APIs.
+
+3. Once the operation is done, a callback is queued in the task queue (or microtask queue depending on the operation).
+
+4. The event loop constantly checks:
+
+- Is the call stack empty?
+
+- If yes → pick the next task from the queue and execute it.
+
+5. This way, JavaScript can process many things asynchronously while running on a single thread.
+
+Key Concepts
+
+➤ Call Stack
+
+- Where synchronous code runs line by line.
+
+➤ Web APIs / Node APIs
+
+- Handle asynchronous tasks like timers, events, or network requests.
+
+➤ Task Queue (Macro Task Queue)
+
+- Holds things like setTimeout, setInterval, UI events, etc.
+
+➤ Microtask Queue
+
+- Holds things like Promise.then(), MutationObserver.
+
+- Runs immediately after the current task finishes and before the next one.
+
+Example — How It Works
+
+```js
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Timeout callback");
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("Promise callback");
+});
+
+console.log("End");
+```
+Output:
+
+```bash
+Start
+End
+Promise callback
+Timeout callback
+```
+Why?
+
+- `"Start"` logs immediately → synchronous.
+
+- `setTimeout` is pushed to the task queue → will run later.
+
+- `Promise.then()` is pushed to the microtask queue → will run right after the current stack.
+
+- `"End"` logs → synchronous.
+
+- Microtasks run → Promise logs.
+
+- Then macro tasks → Timeout logs.
+
+**Does It Work Differently in Browser and Node.js?**
+
+| Feature          | Browser                      | Node.js                          |
+| ---------------- | ---------------------------- | -------------------------------- |
+| Core Event Loop  | ✅ Same principle             | ✅ Same principle                 |
+| Web APIs         | Timers, DOM events, fetch    | Timers, file system, network     |
+| Microtask Queue  | ✅ Promises, MutationObserver | ✅ Promises, `process.nextTick()` |
+| UI Rendering     | ✅ Happens between tasks      | ❌ No UI rendering                |
+| API availability | ✅ DOM, events                | ✅ File system, network           |
+
+
+**Key Takeaways:**
+
+- The event loop logic is the same — it manages execution of asynchronous code by using call stacks and queues.
+
+- The environment-specific APIs differ → browsers have things like `fetch`, `DOM`, and `UI updates`; Node.js has file system, streams, and `process.nextTick()`.
+
+- The microtask queue is treated slightly differently in some scenarios but the basic priority rules remain.
+
+**Summary**
+
+- The event loop is what makes JavaScript non-blocking despite being single-threaded.
+
+- It processes tasks and microtasks when the stack is empty.
+
+- It’s the same in both browsers and Node.js, but the APIs it interfaces with are environment-specific.
+
+- Understanding it helps in managing asynchronous code, avoiding UI freezes, and debugging complex flows.
 
