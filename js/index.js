@@ -5,6 +5,7 @@ import { customMap } from "./custom-js-functions/customMap.js"
 import { customFilter } from "./custom-js-functions/customMap.js";
 import { findDuplicate } from "./findDuplicate.js";
 import { curry } from "./currying.js";
+import { countFrequencies } from "./countFrequencies.js";
 
 // dataTypesDemo();
 
@@ -65,3 +66,11 @@ import { curry } from "./currying.js";
 // const numbers = [1, 2, 3];
 // const doubled = numbers.customMap((num) => num * 2);
 // console.log(doubled);
+
+
+// Count Frequencies Example
+// Example usage:
+const input2 = [1,1,2,3,4,4,5,5,5];
+const input = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple'];
+const output = countFrequencies(input2);
+console.log(output); // { apple: 3, banana: 2, orange: 1 }
