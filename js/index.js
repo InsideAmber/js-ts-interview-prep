@@ -7,6 +7,7 @@ import { findDuplicate } from "./findDuplicate.js";
 import { curry } from "./currying.js";
 import { countFrequencies } from "./countFrequencies.js";
 import { customForEach } from "./custom-js-functions/customForEach.js";
+import { groupByCity } from "./groupArray.js";
 
 // dataTypesDemo();
 
@@ -35,10 +36,21 @@ import { customForEach } from "./custom-js-functions/customForEach.js";
 // console.log(evenNumbers); 
 
 // customForEach Example
-const arr = [10, 20, 30];
-customForEach(arr, (value, index) => {
-  console.log(`Index: ${index}, Value: ${value}`);
-});
+// const arr = [10, 20, 30];
+// customForEach(arr, (value, index) => {
+//   console.log(`Index: ${index}, Value: ${value}`);
+// });
+
+// groupByCity Example
+const people = [
+  { name: 'Alice', city: 'New York' },
+  { name: 'Bob', city: 'London' },
+  { name: 'Charlie', city: 'New York' },
+  { name: 'David', city: 'London' },
+  { name: 'Eve', city: 'Paris' }
+];
+const grouped = groupByCity(people);
+console.log(grouped);
 
 // findDuplicate Example
 // const numbers = [1, 2, 3, 4, 5, 3, 2];
