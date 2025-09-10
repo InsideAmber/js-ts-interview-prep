@@ -12,9 +12,12 @@ export function groupByCity(arr) {
     const grouped = {};
     for (const obj of arr) {
         const city = obj.city;  
+        // If the city key doesn't exist, create an empty array
         if (!grouped[city]) {
+            // Initialize the array for this city
             grouped[city] = [];
         }
+        // Push the current object into the array for this city
         grouped[city].push(obj);
     }   
     return grouped;
