@@ -6,6 +6,7 @@ import { customFilter } from "./custom-js-functions/customMap.js";
 import { findDuplicate } from "./findDuplicate.js";
 import { curry } from "./currying.js";
 import { countFrequencies } from "./countFrequencies.js";
+import { customForEach } from "./custom-js-functions/customForEach.js";
 
 // dataTypesDemo();
 
@@ -33,6 +34,11 @@ import { countFrequencies } from "./countFrequencies.js";
 // const evenNumbers = customFilter(nums, num => num % 2 === 0);
 // console.log(evenNumbers); 
 
+// customForEach Example
+const arr = [10, 20, 30];
+customForEach(arr, (value, index) => {
+  console.log(`Index: ${index}, Value: ${value}`);
+});
 
 // findDuplicate Example
 // const numbers = [1, 2, 3, 4, 5, 3, 2];
@@ -70,7 +76,7 @@ import { countFrequencies } from "./countFrequencies.js";
 
 // Count Frequencies Example
 // Example usage:
-const input2 = [1,1,2,3,4,4,5,5,5];
-const input = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple'];
-const output = countFrequencies(input2);
-console.log(output); // { apple: 3, banana: 2, orange: 1 }
+// const input2 = [1,1,2,3,4,4,5,5,5];
+// const input = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple'];
+// const output = countFrequencies(input2);
+// console.log(output); // { apple: 3, banana: 2, orange: 1 }
