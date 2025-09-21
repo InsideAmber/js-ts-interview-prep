@@ -16,3 +16,10 @@ export function countFrequencies(arr) {
     return frequencyMap;
 }
 
+export function countFrequenciesWithReduce(arr){
+    return arr.reduce((acc, curr)=>{
+        acc[curr] = (acc[curr] || 0) + 1
+        return acc 
+    },{})
+}
+

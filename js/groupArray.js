@@ -22,3 +22,15 @@ export function groupByCity(arr) {
     }   
     return grouped;
 }
+
+// Using reduce
+export function groupByCityWithReduce(arr) {
+    return arr.reduce((acc,curr)=>{
+        const city = curr.city;
+        if(!acc[city]){
+            acc[city] = []
+        }
+        acc[city].push(curr)
+        return acc
+    },{})
+}

@@ -6,8 +6,9 @@ import { customFilter } from "./custom-js-functions/customMap.js";
 import { findDuplicate } from "./findDuplicate.js";
 import { curry } from "./currying.js";
 import { countFrequencies } from "./countFrequencies.js";
+import { countFrequenciesWithReduce } from "./countFrequencies.js";
 import { customForEach } from "./custom-js-functions/customForEach.js";
-import { groupByCity } from "./groupArray.js";
+import { groupByCity, groupByCityWithReduce } from "./groupArray.js";
 
 // dataTypesDemo();
 
@@ -49,7 +50,7 @@ const people = [
   { name: 'David', city: 'London' },
   { name: 'Eve', city: 'Paris' }
 ];
-const grouped = groupByCity(people);
+const grouped = groupByCityWithReduce(people);
 console.log(grouped);
 
 // findDuplicate Example
@@ -90,5 +91,5 @@ console.log(grouped);
 // Example usage:
 // const input2 = [1,1,2,3,4,4,5,5,5];
 // const input = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple'];
-// const output = countFrequencies(input2);
+// const output = countFrequenciesWithReduce(input);
 // console.log(output); // { apple: 3, banana: 2, orange: 1 }
