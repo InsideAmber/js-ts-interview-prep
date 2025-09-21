@@ -19,4 +19,14 @@ export function flattenIterative(arr) {
   return result.reverse();
 }
 
+export function flatRecursively(arr){
+  return arr.reduce((acc, curr)=>{
+      if(Array.isArray(curr)){
+        return acc.concat(flatRecursively(curr));
+      }else{
+        acc.push(curr)
+        return acc
+      }
+  },[])
+}
 
