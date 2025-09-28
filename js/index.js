@@ -43,15 +43,15 @@ import { groupByCity, groupByCityWithReduce } from "./groupArray.js";
 // });
 
 // groupByCity Example
-const people = [
-  { name: 'Alice', city: 'New York' },
-  { name: 'Bob', city: 'London' },
-  { name: 'Charlie', city: 'New York' },
-  { name: 'David', city: 'London' },
-  { name: 'Eve', city: 'Paris' }
-];
-const grouped = groupByCityWithReduce(people);
-console.log(grouped);
+// const people = [
+//   { name: 'Alice', city: 'New York' },
+//   { name: 'Bob', city: 'London' },
+//   { name: 'Charlie', city: 'New York' },
+//   { name: 'David', city: 'London' },
+//   { name: 'Eve', city: 'Paris' }
+// ];
+// const grouped = groupByCityWithReduce(people);
+// console.log(grouped);
 
 // findDuplicate Example
 // const numbers = [1, 2, 3, 4, 5, 3, 2];
@@ -93,3 +93,16 @@ console.log(grouped);
 // const input = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple'];
 // const output = countFrequenciesWithReduce(input);
 // console.log(output); // { apple: 3, banana: 2, orange: 1 }
+
+
+// customForEach proto Example
+Array.prototype.customForEachProto = function(callback) {
+  for (let i = 0; i < this.length; i++) {
+    callback(this[i], i, this);
+  }     
+};
+
+const arr = [10, 20, 30];
+arr.customForEachProto((value, index) => {
+  console.log(`Index: ${index}, Value: ${value}`);
+});
