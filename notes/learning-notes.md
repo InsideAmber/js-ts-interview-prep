@@ -1281,3 +1281,194 @@ Why?
 
 - Understanding it helps in managing asynchronous code, avoiding UI freezes, and debugging complex flows.
 
+## 11. Top ES6 Features in JavaScript
+
+1️⃣ `let` and `const`
+
+Block-scoped variables.
+
+```js
+let a = 10;     // can be reassigned
+const b = 20;   // cannot be reassigned
+```
+
+✅ Unlike `var`, they are block-scoped and not hoisted the same way.
+
+2️⃣ Arrow Functions
+
+Shorter syntax for writing functions.
+
+```js
+const add = (a, b) => a + b;
+```
+
+✅ Lexically binds `this` (no need to use `.bind(this)`).
+
+3️⃣ Template Literals
+
+Use backticks (`) for easier string concatenation and multi-line strings.
+
+```js
+const name = 'Amber';
+console.log(`Hello, ${name}!`);
+```
+
+4️⃣ Default Parameters
+
+Set default values for function parameters.
+
+```js
+function greet(name = 'Guest') {
+  console.log(`Hello, ${name}`);
+}
+```
+
+5️⃣ Destructuring Assignment
+
+Extract values from arrays or objects easily.
+
+```js
+// Array
+const [a, b] = [10, 20];
+
+// Object
+const { name, age } = { name: 'Amber', age: 25 };
+```
+
+6️⃣ Spread and Rest Operators (`...`)
+
+
+➤ Spread (expand elements)
+
+```js
+const arr1 = [1, 2];
+const arr2 = [...arr1, 3, 4]; // [1, 2, 3, 4]
+```
+
+➤ Rest (collect remaining arguments)
+
+```js
+function sum(...nums) {
+  return nums.reduce((a, b) => a + b, 0);
+}
+```
+
+7️⃣ Modules (`import / export`)
+
+```js
+// math.js
+export const add = (a, b) => a + b;
+
+// main.js
+import { add } from './math.js';
+```
+✅ Encourages modular, reusable code.
+
+8️⃣ Classes
+
+Simpler syntax for prototypes.
+
+```js
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+  greet() {
+    console.log(`Hello ${this.name}`);
+  }
+}
+```
+
+9️⃣ Promises
+
+Used for asynchronous operations.
+
+```js
+const fetchData = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve("Data fetched!"), 1000);
+  });
+};
+
+fetchData().then(console.log);
+```
+
+🔟 Enhanced Object Literals
+
+Shorthand for defining properties and methods.
+
+```js
+const name = "Amber";
+const person = {
+  name,
+  greet() {
+    console.log(`Hello ${this.name}`);
+  },
+};
+```
+
+11 For...of Loop
+
+Iterate over arrays, strings, etc.
+
+```js
+for (let val of [1, 2, 3]) {
+  console.log(val);
+}
+```
+
+12 Map and Set
+
+New data structures.
+
+```js
+// Map
+const map = new Map();
+map.set('a', 1);
+
+// Set
+const set = new Set([1, 2, 2, 3]); // {1, 2, 3}
+```
+
+13 Symbol
+
+A new primitive data type — unique and immutable.
+
+```js
+const id = Symbol('id');
+```
+
+14 Iterators and Generators
+
+Control iteration manually.
+
+```js
+function* gen() {
+  yield 1;
+  yield 2;
+}
+const g = gen();
+console.log(g.next().value); // 1
+```
+
+15 Enhanced Parameter Handling
+
+You can use rest, default, and destructuring together in parameters.
+
+```js
+function display({ name, age } = {}) {
+  console.log(name, age);
+}
+```
+
+💡 Bonus (ES6+ that followed after 2015)
+
+- Later versions added:
+
+- Async/Await (ES2017)
+
+- Optional chaining `?.` (ES2020)
+
+- Nullish coalescing `??` (ES2020)
+
+- `Object.fromEntries()`, `flat()`, `flatMap()`, etc.
