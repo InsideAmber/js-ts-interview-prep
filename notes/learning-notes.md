@@ -61,8 +61,6 @@ In JavaScript, var, let, and const are used to declare variables, but they diffe
 
 1. Definition:
 
-    A closure is the combination of a function and the lexical environment within which that function was declared.
-
     **In simple words**:
     A closure gives you access to an outer function’s variables even after the outer function has finished executing.
 
